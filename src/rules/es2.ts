@@ -442,6 +442,8 @@ const allCapsCheck: Check = {
     for (const fn of ctx.nodesOf('function_definition')) {
       const fd = field(fn, 'declarator');
       const shape = shapeOf(fd);
+      // `TEST(Suite, Name) { ... }` has no return type: it is a macro invocation, not a function
+      if (!field(fn, 'type')) continue;
       if (shape.nameNode && shape.nameNode.type === 'identifier' && isAllCaps(shape.nameNode.text)) flag(shape.nameNode, 'NL.9', t('Function name'));
     }
     for (const c of ctx.nodesOf('class_specifier', 'struct_specifier', 'enum_specifier', 'union_specifier')) {

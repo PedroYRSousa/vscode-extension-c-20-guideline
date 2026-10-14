@@ -11,6 +11,7 @@ export class Context {
   private allowed: ReadonlySet<string> | undefined;
   private symbolTable: SymbolTable | undefined;
   private errorRanges: Array<[number, number]> | undefined;
+  private tokenList: Node[] | undefined;
 
   constructor(
     readonly text: string,
@@ -30,6 +31,26 @@ export class Context {
   get symbols(): SymbolTable {
     this.symbolTable ??= new SymbolTable(this.root, this.text);
     return this.symbolTable;
+  }
+
+  /**
+   * Leaf tokens in document order (comments included; string/char literals are single tokens).
+   * Used by the layout rules, which look at the whitespace between tokens.
+   */
+  get tokens(): Node[] {
+    if (this.tokenList) return this.tokenList;
+    const atomic = new Set(['string_literal', 'char_literal', 'raw_string_literal', 'comment', 'system_lib_string', 'preproc_arg', 'preproc_directive', 'string_content']);
+    const out: Node[] = [];
+    const visit = (n: Node): void => {
+      if (atomic.has(n.type) || n.childCount === 0) {
+        if (n.endIndex > n.startIndex && n.type !== 'ERROR') out.push(n);
+        return;
+      }
+      for (const c of n.children) if (c) visit(c);
+    };
+    visit(this.root);
+    this.tokenList = out;
+    return out;
   }
 
   /** True when `offset` lies inside a region tree-sitter could not parse (results there are unreliable). */

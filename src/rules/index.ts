@@ -9,6 +9,8 @@ import { f2Checks } from './f2.js';
 import { m1Checks } from './m1.js';
 import { m2Checks } from './m2.js';
 import { m3Checks } from './m3.js';
+import { nlLayoutChecks } from './nl.js';
+import { nlNamingChecks } from './nl2.js';
 import { rChecks } from './r.js';
 
 export const allChecks: Check[] = [
@@ -23,4 +25,6 @@ export const allChecks: Check[] = [
   ...m1Checks,
   ...m2Checks,
   ...m3Checks,
+  ...nlLayoutChecks,
+  ...nlNamingChecks,
 ];
