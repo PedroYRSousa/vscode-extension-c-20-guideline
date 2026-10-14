@@ -66,7 +66,8 @@ export function classesOf(ctx: Context): ClassInfo[] {
     if (!body) continue;
     const keyword = node.type === 'class_specifier' ? 'class' : node.type === 'struct_specifier' ? 'struct' : 'union';
     const nameNode = field(node, 'name');
-    const name = nameNode ? stripTemplate(nameNode.text) : '';
+    // `class path::iterator { ... }`: inside the class the name is the last component
+    const name = nameNode ? (stripTemplate(nameNode.text).split('::').pop() ?? '') : '';
     const bases: ClassInfo['bases'] = [];
     const baseClause = kids(node).find((k) => k.type === 'base_class_clause');
     if (baseClause) {

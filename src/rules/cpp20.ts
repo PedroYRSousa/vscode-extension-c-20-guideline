@@ -405,7 +405,9 @@ const nodiscardCheck: Check = {
         ruleId: 'CPP20.nodiscard',
         node: shapeOf(field(node, 'declarator')).nameNode ?? node,
         message: t('Mark "{0}" [[nodiscard]]: ignoring its result is almost certainly a bug.', name),
-        fixes: [ctx.fix(t('Add [[nodiscard]]'), [ctx.insertAt(node.startIndex, '[[nodiscard]] ')])],
+        fixes: ctx.directiveBetween(node.startIndex, (shapeOf(field(node, 'declarator')).nameNode ?? node).startIndex)
+          ? []
+          : [ctx.fix(t('Add [[nodiscard]]'), [ctx.insertAt(node.startIndex, '[[nodiscard]] ')])],
       });
     };
     const returnsValue = (f: ReturnType<typeof functionsOf>[number]): boolean => !!f.returnType && normalizeType(ctx.src(f.returnType)) !== 'void';

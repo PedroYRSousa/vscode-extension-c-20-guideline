@@ -96,7 +96,7 @@ const oneNameCheck: Check = {
       if (declarators.length < 2) continue;
       if (declarators.some((d) => shapeOf(d).isFunction)) continue;
       if (ancestor(decl, 'type_definition')) continue;
-      const fix = splitDeclaration(ctx, decl);
+      const fix = decl.hasError ? null : splitDeclaration(ctx, decl);
       ctx.report({
         ruleId: 'ES.10',
         alsoCovers: ['NL.21'],
@@ -158,7 +158,9 @@ const macroCheck: Check = {
       if (!functionLike && value === '') continue; // `#define X` / include guards: source control
       const constant = !functionLike && SIMPLE_CONSTANT.test(value);
       const fixes: Fix[] = [];
-      if (constant && /^[A-Za-z_]\w*$/.test(name)) {
+      // not offered for reserved names, or when the name is also used by other directives (#if, #ifdef, other macros)
+      const inDirectives = (ctx.directiveText.match(new RegExp(`\\b${name}\\b`, 'g')) ?? []).length > 1;
+      if (constant && /^[A-Za-z]\w*$/.test(name) && !name.includes('__') && !inDirectives) {
         const newName = toSnakeCase(name);
         const edits: TextEdit[] = [
           ctx.replace(def, `inline constexpr auto ${newName} = ${value};${/\r?\n$/.test(ctx.src(def)) ? ctx.eol : ''}`),

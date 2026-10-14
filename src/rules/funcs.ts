@@ -64,7 +64,7 @@ export function functionsOf(ctx: Context): FuncInfo[] {
     const parts = op ? [...stripTemplateArgs(qualifier).split('::').filter(Boolean), 'operator'] : stripTemplateArgs(full).split('::');
     const name = op ? op[1].trim().replace(/^operator\s+(?=[^\w\s])/, 'operator') : parts[parts.length - 1].trim();
     const cls = ancestor(node, 'class_specifier', 'struct_specifier', 'union_specifier');
-    let className: string | null = cls ? (field(cls, 'name') ? stripTemplateArgs(field(cls, 'name')!.text) : null) : null;
+    let className: string | null = cls ? (field(cls, 'name') ? (stripTemplateArgs(field(cls, 'name')!.text).split('::').pop() ?? null) : null) : null;
     if (!className && parts.length > 1) className = parts[parts.length - 2].trim();
     const params = field(fd, 'parameters');
     const noexceptNode = kids(fd).find((k) => k.type === 'noexcept') ?? null;

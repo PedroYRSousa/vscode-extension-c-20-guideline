@@ -14,6 +14,7 @@ diagnostic comes with a Quick Fix whenever a mechanical fix exists.
 * **Quick Fixes** on every diagnostic: a *preferred* fix when the rewrite is behaviour preserving, separate
   fixes marked *"(may change behaviour - review)"* otherwise, "Open the documentation of the rule", and
   "Suppress on this line (justification required)". There is also a *Fix all safe issues* source action.
+  A fix is withheld where it would have to cut through preprocessor lines or code the parser could not understand.
 * **239 of the 469 rules** are checked by the built-in analyser (tree-sitter, works offline). The rest are
   listed with the reason in [docs/COVERAGE.md](docs/COVERAGE.md): many rules have no criterion that a tool can
   decide (the guideline itself says so), and some contradict C++20.

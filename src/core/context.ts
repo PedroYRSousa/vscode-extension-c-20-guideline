@@ -4,6 +4,11 @@ import { SymbolTable } from './symbols.js';
 import type { AnalyzerConfig, FileInfo, Finding, Fix, ReportArgs, TextEdit } from './types.js';
 
 /** Everything a check needs: the text, the syntax tree, an index of nodes by type, and `report`. */
+const insideString = (n: Node): boolean => {
+  for (let p = n.parent; p; p = p.parent) if (p.type === 'string_literal') return true;
+  return false;
+};
+
 export class Context {
   readonly findings: Finding[] = [];
   private readonly index = new Map<string, Node[]>();
@@ -11,6 +16,8 @@ export class Context {
   private allowed: ReadonlySet<string> | undefined;
   private symbolTable: SymbolTable | undefined;
   private errorRanges: Array<[number, number]> | undefined;
+  private structuralErrors: Array<[number, number]> | undefined;
+  private directives: string | undefined;
   private tokenList: Node[] | undefined;
 
   constructor(
@@ -55,8 +62,49 @@ export class Context {
 
   /** True when `offset` lies inside a region tree-sitter could not parse (results there are unreliable). */
   inSyntaxError(offset: number): boolean {
+    return this.syntaxErrors().some(([s, e]) => offset >= s && offset < e);
+  }
+
+  private syntaxErrors(): Array<[number, number]> {
     this.errorRanges ??= this.nodesOf('ERROR').map((n): [number, number] => [n.startIndex, n.endIndex]);
-    return this.errorRanges.some(([s, e]) => offset >= s && offset < e);
+    return this.errorRanges;
+  }
+
+  /** The lines that belong to preprocessor directives (continuation lines included), joined by newlines. */
+  get directiveText(): string {
+    if (this.directives !== undefined) return this.directives;
+    const out: string[] = [];
+    let continued = false;
+    for (let l = 0; l < this.lineCount; l++) {
+      const text = this.lineText(l);
+      if (continued || /^[ \t]*#/.test(text)) {
+        out.push(text);
+        continued = /\\\s*$/.test(text);
+      }
+    }
+    this.directives = out.join('\n');
+    return this.directives;
+  }
+
+  /** True when a preprocessor directive starts on a line that begins inside `[start, end)`. */
+  directiveBetween(start: number, end: number): boolean {
+    return /\n[ \t]*#/.test(this.text.slice(start, end));
+  }
+
+  /**
+   * A fix is only offered when its result can be trusted: no edit may cut through preprocessor lines or
+   * text tree-sitter could not parse (pure indentation or spacing changes excepted).
+   */
+  private trustworthy(fix: Fix): boolean {
+    // an invalid escape inside a string literal (`"dir\util.h"`) does not make the code around it unreliable
+    this.structuralErrors ??= this.nodesOf('ERROR').filter((n) => !insideString(n)).map((n): [number, number] => [n.startIndex, n.endIndex]);
+    const errors = this.structuralErrors;
+    return fix.edits.every((e) => {
+      const old = this.text.slice(e.start, e.end);
+      if (!/[\n]/.test(old + e.text) && /^[ \t]*$/.test(old) && /^[ \t]*$/.test(e.text)) return true;
+      if (e.end > e.start && /\n[ \t]*#/.test(old)) return false;
+      return !errors.some(([s, en]) => (e.end > e.start ? e.start <= en && e.end >= s : e.start > s && e.start < en));
+    });
   }
 
   /** Limit `report` to the ids a check declared in `covers` (programming error otherwise). */
@@ -174,7 +222,7 @@ export class Context {
       start,
       end: end > start ? end : Math.min(start + 1, this.text.length),
       message: args.message,
-      fixes: args.fixes ?? [],
+      fixes: (args.fixes ?? []).filter((f) => this.trustworthy(f)),
       alsoCovers: args.alsoCovers ?? [],
     });
   }

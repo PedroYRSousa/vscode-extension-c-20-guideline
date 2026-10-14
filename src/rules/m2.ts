@@ -68,19 +68,22 @@ function isRealTemplate(tpl: Node): boolean {
 
 function guardName(ctx: Context): string {
   const parts = ctx.file.path.replace(/\\/g, '/').split('/').filter(Boolean).slice(-2);
-  const joined = parts.join('_').replace(/\.[^.]*$/, '').replace(/[^A-Za-z0-9]+/g, '_').toUpperCase();
-  return `${joined || 'HEADER'}_H`;
+  const joined = parts.join('_').replace(/\.[^.]*$/, '').replace(/[^A-Za-z0-9]+/g, '_').replace(/^_+|_+$/g, '').toUpperCase();
+  // a macro name cannot start with a digit, and names starting with an underscore are reserved
+  const base = joined === '' ? 'HEADER' : /^[A-Z]/.test(joined) ? joined : `FILE_${joined}`;
+  return `${base}_H`;
 }
 
 function hasIncludeGuard(ctx: Context): boolean {
-  const items = namedKids(ctx.root).filter((n) => n.type !== 'comment' && !(n.type === 'preproc_call' && /^#\s*pragma/.test(ctx.src(n))));
+  const items = namedKids(ctx.root).filter((n) => n.type !== 'comment' && n.type !== 'ERROR' && !(n.type === 'preproc_call' && /^#\s*pragma/.test(ctx.src(n))));
   if (items.length === 0) return true; // empty header
   const first = items[0];
   if (first.type !== 'preproc_ifdef') return false;
   if (!/^#\s*ifndef\b/.test(ctx.src(first))) return false;
   const name = field(first, 'name')?.text;
   const define = namedKids(first).find((n) => n.type === 'preproc_def');
-  return !!name && field(define ?? first, 'name')?.text === name && items.length === 1;
+  // when tree-sitter lost track of the nesting (macros around the #endif), the guard's extent cannot be judged
+  return !!name && field(define ?? first, 'name')?.text === name && (items.length === 1 || ctx.root.hasError);
 }
 
 const sourceFileCheck: Check = {

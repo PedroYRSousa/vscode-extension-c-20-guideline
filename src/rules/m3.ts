@@ -64,7 +64,7 @@ const constrainCheck: Check = {
           alsoCovers: ['I.9', 'T.1', 'T.11'],
           node: p,
           message: t('Specify a concept for the template parameter "{0}".', id.text),
-          fixes: conceptFixes(ctx, keyword, (c) => c),
+          fixes: p.type === 'optional_type_parameter_declaration' ? [] : conceptFixes(ctx, keyword, (c) => c),
         });
       }
     }

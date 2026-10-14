@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { docUrl } from '../core/registry.js';
+import { isKnownRuleId } from '../core/registry.js';
 import { t } from '../core/i18n.js';
 import { DIAGNOSTIC_SOURCE, selectNonOverlapping, toWorkspaceEdit, type Analysed } from './convert.js';
 
@@ -35,8 +35,8 @@ export class GuidelineCodeActions implements vscode.CodeActionProvider {
           actions.push(action);
         });
 
-        const url = docUrl(finding.ruleId);
-        if (url) {
+        // guideline rules open the Core Guidelines; CPP20.* rules open the packaged rule list
+        if (isKnownRuleId(finding.ruleId)) {
           const open = new vscode.CodeAction(t('Open the documentation of {0}', finding.ruleId), vscode.CodeActionKind.QuickFix);
           open.command = { command: 'cpp20Guidelines.openRule', title: open.title, arguments: [finding.ruleId] };
           open.diagnostics = [diagnostic];

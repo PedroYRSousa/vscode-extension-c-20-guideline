@@ -4,7 +4,7 @@ import * as vscode from 'vscode';
 import { analyze, fileInfoFor } from '../core/analyzer.js';
 import { ClangTidyUnavailable, runClangTidy } from '../core/clangtidy-run.js';
 import { matchesAnyGlob } from '../core/glob.js';
-import { docUrl } from '../core/registry.js';
+import { docUrl, isKnownRuleId } from '../core/registry.js';
 import { setTranslator, t } from '../core/i18n.js';
 import type { Finding } from '../core/types.js';
 import { allChecks } from '../rules/index.js';
@@ -138,7 +138,12 @@ export function activate(context: vscode.ExtensionContext): void {
     ),
     vscode.commands.registerCommand('cpp20Guidelines.openRule', async (ruleId: string) => {
       const url = docUrl(ruleId);
-      if (url) await vscode.env.openExternal(vscode.Uri.parse(url));
+      if (url) {
+        await vscode.env.openExternal(vscode.Uri.parse(url));
+      } else if (isKnownRuleId(ruleId)) {
+        // an extension rule (CPP20.*): described in the rule list shipped with the extension
+        await vscode.commands.executeCommand('markdown.showPreview', vscode.Uri.joinPath(context.extensionUri, 'docs', 'COVERAGE.md'));
+      }
     }),
     vscode.commands.registerCommand('cpp20Guidelines.analyzeActiveFile', async () => {
       const doc = vscode.window.activeTextEditor?.document;

@@ -278,7 +278,6 @@
  "The forwarding reference \"{0}\" must only be passed to std::forward<T>({0}).": "A referência de encaminhamento \"{0}\" só pode ser passada a std::forward<T>({0}).",
  "The function's opening brace goes on a line of its own (K&R/Stroustrup layout).": "A chaveta de abertura da função vai numa linha própria (formato K&R/Stroustrup).",
  "The opening brace goes on the same line as the statement it belongs to (K&R layout).": "A chaveta de abertura vai na mesma linha da instrução a que pertence (formato K&R).",
- "The opening brace of a class or struct is not on a line of its own.": "A chaveta de abertura de uma class ou struct não vai numa linha própria.",
  "The order of evaluation of function arguments is unspecified, but \"{0}\" is modified and used in different arguments.": "A ordem de avaliação dos argumentos de uma função não é especificada, mas \"{0}\" é modificado e usado em argumentos diferentes.",
  "The overloads of \"{0}\" share a common prefix of parameters; prefer default arguments.": "As sobrecargas de \"{0}\" partilham um prefixo comum de parâmetros; prefira argumentos por omissão.",
  "The register keyword was removed in C++17.": "A palavra-chave register foi removida no C++17.",
@@ -414,5 +413,6 @@
  "{0} \"{1}\" must not be ALL_CAPS (reserved for macros).": "{0} \"{1}\" não pode estar em MAIÚSCULAS (reservado às macros).",
  "{0} line(s) wider than {1} columns": "{0} linha(s) com mais de {1} colunas",
  "{0} lines (max {1})": "{0} linhas (máx. {1})",
- "{0} logical paths (max {1})": "{0} caminhos lógicos (máx. {1})"
+ "{0} logical paths (max {1})": "{0} caminhos lógicos (máx. {1})",
+ "The opening brace of a class or struct goes on the same line as its head (K&R layout).": "A chaveta de abertura de uma class ou struct vai na mesma linha do cabeçalho (disposição K&R)."
 }

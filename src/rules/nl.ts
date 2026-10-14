@@ -43,10 +43,12 @@ const indentationCheck: Check = {
       const unit = ctx.indentUnit === '\t' ? 4 : ctx.indentUnit.length;
       const edits: TextEdit[] = [];
       let first = -1;
+      const strings = ctx.nodesOf('raw_string_literal', 'string_literal').filter((n) => n.endIndex > n.startIndex && ctx.lineOf(n.startIndex) !== ctx.lineOf(n.endIndex - 1));
       for (let l = 0; l < ctx.lineCount; l++) {
         const text = ctx.lineText(l);
         const ws = /^[ \t]*/.exec(text)![0];
         if (ws.length === text.length) continue;
+        if (strings.some((n) => ctx.lineStart(l) > n.startIndex && ctx.lineStart(l) < n.endIndex)) continue; // inside a literal
         const bad = useTabs ? /^ {2,}/.test(ws) && !ws.includes('\t') : ws.includes('\t');
         if (!bad) continue;
         if (first < 0) first = l;
@@ -211,6 +213,23 @@ const knrCheck: Check = {
       while (s > 0 && /\s/.test(ctx.text[s - 1])) s--;
       return { start: s, end: open.startIndex };
     };
+    // "move the opening brace up to the previous line". A `//` comment closing that line would swallow the
+    // brace, so the brace then goes in front of the comment; a preprocessor line in between means no fix.
+    const commentEnds = new Map(ctx.nodesOf('comment').map((c) => [c.endIndex, c] as const));
+    const moveUp = (open: Node): Fix[] => {
+      const gap = gapBefore(open);
+      let tokenEnd = gap.start;
+      let lineComment = false;
+      for (let c = commentEnds.get(tokenEnd); c; c = commentEnds.get(tokenEnd)) {
+        if (c.text.startsWith('//')) lineComment = true;
+        tokenEnd = c.startIndex;
+        while (tokenEnd > 0 && /\s/.test(ctx.text[tokenEnd - 1])) tokenEnd--;
+      }
+      if (/^[ \t]*#/m.test(ctx.slice(tokenEnd, open.startIndex))) return [];
+      const title = t('Move the brace to the previous line');
+      if (!lineComment) return [ctx.fix(title, [ctx.replaceRange(gap.start, gap.end, ' ')])];
+      return [ctx.fix(title, [ctx.insertAt(tokenEnd, ' {'), ctx.replaceRange(gap.start, open.startIndex + 1, '')])];
+    };
 
     // functions: the opening brace is on a line of its own
     for (const f of functionsOf(ctx)) {
@@ -236,10 +255,7 @@ const knrCheck: Check = {
       if (c.keyword === 'union') continue;
       const open = c.body;
       if (ctx.startsLine(open.startIndex)) {
-        const gap = gapBefore(open);
-        report({ start: open.startIndex, end: open.startIndex + 1 }, t("The opening brace of a class or struct is not on a line of its own."), [
-          ctx.fix(t('Move the brace to the previous line'), [ctx.replaceRange(gap.start, gap.end, ' ')]),
-        ]);
+        report({ start: open.startIndex, end: open.startIndex + 1 }, t('The opening brace of a class or struct goes on the same line as its head (K&R layout).'), moveUp(open));
       } else if (namedKids(open).length > 0 && ctx.lineOf(open.startIndex) === ctx.lineOf(namedKids(open)[0].startIndex)) {
         const expansion = blockExpansion(ctx, open, lineIndent(c.node.startIndex));
         report({ start: open.startIndex, end: open.startIndex + 1 }, t('Use separate lines for each member.'), expansion !== null ? [ctx.fix(t('Put the members on separate lines'), [ctx.replace(open, expansion)])] : []);
@@ -273,10 +289,7 @@ const knrCheck: Check = {
     for (const { owner, body, headEnd } of bodies) {
       if (body.type === 'compound_statement') {
         if (ctx.startsLine(body.startIndex) && ctx.lineOf(body.startIndex) > ctx.lineOf(headEnd)) {
-          const gap = gapBefore(body);
-          report({ start: body.startIndex, end: body.startIndex + 1 }, t('The opening brace goes on the same line as the statement it belongs to (K&R layout).'), [
-            ctx.fix(t('Move the brace to the previous line'), [ctx.replaceRange(gap.start, gap.end, ' ')]),
-          ]);
+          report({ start: body.startIndex, end: body.startIndex + 1 }, t('The opening brace goes on the same line as the statement it belongs to (K&R layout).'), moveUp(body));
         } else {
           const first = namedKids(body)[0];
           if (first && ctx.lineOf(first.startIndex) === ctx.lineOf(body.startIndex) && ctx.lineOf(body.startIndex) === ctx.lineOf(headEnd)) {

@@ -12,7 +12,8 @@ diagnóstico traz uma correção rápida (*Quick Fix*) sempre que existe uma cor
 * **Correções rápidas** em cada diagnóstico: uma correção *preferida* quando a reescrita preserva o comportamento,
   correções separadas marcadas *"(pode alterar o comportamento - reveja)"* nos restantes casos, "Abrir a
   documentação da regra" e "Suprimir nesta linha (requer justificação)". Existe ainda a ação *Corrigir todos os
-  problemas seguros*.
+  problemas seguros*. Uma correção não é oferecida quando teria de atravessar linhas do pré-processador ou código
+  que o analisador sintático não conseguiu interpretar.
 * **239 das 469 regras** são verificadas pelo analisador interno (tree-sitter, funciona offline). As restantes
   estão em [docs/COVERAGE.md](docs/COVERAGE.md) com o motivo: muitas não têm critério que uma ferramenta consiga
   decidir (a própria diretriz o diz) e algumas contradizem o C++20.
