@@ -1,0 +1,255 @@
+{
+  "name": "cpp20-guidelines",
+  "displayName": "%extension.displayName%",
+  "description": "%extension.description%",
+  "version": "0.1.0",
+  "publisher": "pedroyrsousa",
+  "license": "MIT",
+  "private": true,
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "main": "./dist/extension.js",
+  "type": "commonjs",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "watch": "node scripts/build.mjs --watch",
+    "typecheck": "tsc --noEmit -p .",
+    "test": "vitest run",
+    "rules:extract": "node scripts/extract-rules.mjs",
+    "docs:coverage": "node scripts/gen-docs.mjs",
+    "smoke": "node scripts/smoke.cjs",
+    "package": "npm run build && vsce package --no-dependencies"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/vscode": "^1.85.0",
+    "@vscode/vsce": "^3.0.0",
+    "esbuild": "^0.25.0",
+    "tree-sitter-wasms": "^0.1.13",
+    "typescript": "^5.6.0",
+    "vitest": "^3.0.0",
+    "web-tree-sitter": "^0.25.0"
+  },
+  "categories": [
+    "Linters",
+    "Programming Languages",
+    "Formatters"
+  ],
+  "keywords": [
+    "c++",
+    "c++20",
+    "cpp",
+    "core guidelines",
+    "lint",
+    "quick fix"
+  ],
+  "l10n": "./l10n",
+  "activationEvents": [
+    "onLanguage:cpp"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pedroyrsousa/vscode-extension-c-20-guideline"
+  },
+  "contributes": {
+    "configuration": {
+      "title": "%extension.displayName%",
+      "properties": {
+        "cpp20Guidelines.enable": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "%config.enable%",
+          "scope": "resource"
+        },
+        "cpp20Guidelines.enableOptionalWarnings": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "%config.enableOptionalWarnings%",
+          "scope": "resource"
+        },
+        "cpp20Guidelines.run": {
+          "type": "string",
+          "default": "onType",
+          "markdownDescription": "%config.run%",
+          "scope": "resource",
+          "enum": [
+            "onType",
+            "onSave"
+          ],
+          "enumDescriptions": [
+            "%config.run.onType%",
+            "%config.run.onSave%"
+          ]
+        },
+        "cpp20Guidelines.exclude": {
+          "type": "array",
+          "default": [
+            "**/build/**",
+            "**/third_party/**",
+            "**/external/**",
+            "**/vendor/**",
+            "**/node_modules/**"
+          ],
+          "markdownDescription": "%config.exclude%",
+          "scope": "resource",
+          "items": {
+            "type": "string"
+          }
+        },
+        "cpp20Guidelines.gsl.enabled": {
+          "type": "boolean",
+          "default": false,
+          "markdownDescription": "%config.gsl.enabled%",
+          "scope": "resource"
+        },
+        "cpp20Guidelines.modules.enforce": {
+          "type": "boolean",
+          "default": false,
+          "markdownDescription": "%config.modules.enforce%",
+          "scope": "resource"
+        },
+        "cpp20Guidelines.fileSuffixes.sources": {
+          "type": "array",
+          "default": [
+            ".cpp",
+            ".cxx",
+            ".cc",
+            ".C"
+          ],
+          "markdownDescription": "%config.fileSuffixes.sources%",
+          "scope": "resource",
+          "items": {
+            "type": "string"
+          }
+        },
+        "cpp20Guidelines.fileSuffixes.headers": {
+          "type": "array",
+          "default": [
+            ".h",
+            ".hh",
+            ".hpp",
+            ".hxx"
+          ],
+          "markdownDescription": "%config.fileSuffixes.headers%",
+          "scope": "resource",
+          "items": {
+            "type": "string"
+          }
+        },
+        "cpp20Guidelines.thresholds.maxFunctionLines": {
+          "type": "integer",
+          "default": 60,
+          "markdownDescription": "%config.thresholds.maxFunctionLines%",
+          "scope": "resource",
+          "minimum": 1
+        },
+        "cpp20Guidelines.thresholds.maxFunctionColumns": {
+          "type": "integer",
+          "default": 140,
+          "markdownDescription": "%config.thresholds.maxFunctionColumns%",
+          "scope": "resource",
+          "minimum": 1
+        },
+        "cpp20Guidelines.thresholds.maxCyclomaticComplexity": {
+          "type": "integer",
+          "default": 10,
+          "markdownDescription": "%config.thresholds.maxCyclomaticComplexity%",
+          "scope": "resource",
+          "minimum": 1
+        },
+        "cpp20Guidelines.thresholds.digitSeparatorMinDigits": {
+          "type": "integer",
+          "default": 7,
+          "markdownDescription": "%config.thresholds.digitSeparatorMinDigits%",
+          "scope": "resource",
+          "minimum": 2
+        },
+        "cpp20Guidelines.thresholds.maxParameters": {
+          "type": "integer",
+          "default": 5,
+          "markdownDescription": "%config.thresholds.maxParameters%",
+          "scope": "resource",
+          "minimum": 1
+        },
+        "cpp20Guidelines.magicConstants.allowList": {
+          "type": "array",
+          "default": [
+            "0",
+            "1",
+            "-1",
+            "2",
+            "0.0",
+            "1.0",
+            "0.5",
+            "100",
+            "1000",
+            "'\\n'",
+            "'\\0'",
+            "\"\"",
+            "' '"
+          ],
+          "markdownDescription": "%config.magicConstants.allowList%",
+          "scope": "resource",
+          "items": {
+            "type": "string"
+          }
+        },
+        "cpp20Guidelines.clangTidy.enabled": {
+          "type": "boolean",
+          "default": false,
+          "markdownDescription": "%config.clangTidy.enabled%",
+          "scope": "resource"
+        },
+        "cpp20Guidelines.clangTidy.path": {
+          "type": "string",
+          "default": "clang-tidy",
+          "markdownDescription": "%config.clangTidy.path%",
+          "scope": "resource"
+        },
+        "cpp20Guidelines.clangTidy.extraArgs": {
+          "type": "array",
+          "default": [],
+          "markdownDescription": "%config.clangTidy.extraArgs%",
+          "scope": "resource",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "commands": [
+      {
+        "command": "cpp20Guidelines.analyzeActiveFile",
+        "title": "%command.analyzeActiveFile%",
+        "category": "C++20 Guidelines"
+      },
+      {
+        "command": "cpp20Guidelines.openRule",
+        "title": "%command.openRule%",
+        "category": "C++20 Guidelines"
+      },
+      {
+        "command": "cpp20Guidelines.suppress",
+        "title": "%command.suppress%",
+        "category": "C++20 Guidelines"
+      }
+    ],
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "cpp20Guidelines.openRule",
+          "when": "false"
+        },
+        {
+          "command": "cpp20Guidelines.suppress",
+          "when": "false"
+        },
+        {
+          "command": "cpp20Guidelines.analyzeActiveFile",
+          "when": "editorLangId == cpp"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,4480 @@
+{
+ "source": "https://github.com/isocpp/CppCoreGuidelines",
+ "commit": "33bcd015997f0d8e0fa0202eb66254a16f59ad8f",
+ "baseUrl": "https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines",
+ "rules": [
+  {
+   "id": "In.0",
+   "anchor": "r0",
+   "section": "In",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "P.1",
+   "anchor": "rp-direct",
+   "section": "P",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "not-enforceable"
+  },
+  {
+   "id": "P.2",
+   "anchor": "rp-cplusplus",
+   "section": "P",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "P.3",
+   "anchor": "rp-what",
+   "section": "P",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "P.4",
+   "anchor": "rp-typesafe",
+   "section": "P",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:ideally",
+   "enforcement": "hint"
+  },
+  {
+   "id": "P.5",
+   "anchor": "rp-compile-time",
+   "section": "P",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:prefer",
+   "enforcement": "hint"
+  },
+  {
+   "id": "P.6",
+   "anchor": "rp-run-time",
+   "section": "P",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:should",
+   "enforcement": "hint"
+  },
+  {
+   "id": "P.7",
+   "anchor": "rp-early",
+   "section": "P",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "P.8",
+   "anchor": "rp-leak",
+   "section": "P",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "P.9",
+   "anchor": "rp-waste",
+   "section": "P",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "P.10",
+   "anchor": "rp-mutable",
+   "section": "P",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:prefer",
+   "enforcement": "none"
+  },
+  {
+   "id": "P.11",
+   "anchor": "rp-library",
+   "section": "P",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "P.12",
+   "anchor": "rp-tools",
+   "section": "P",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "P.13",
+   "anchor": "rp-lib",
+   "section": "P",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "I.1",
+   "anchor": "ri-explicit",
+   "section": "I",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "I.2",
+   "anchor": "ri-global",
+   "section": "I",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:avoid",
+   "enforcement": "hint"
+  },
+  {
+   "id": "I.3",
+   "anchor": "ri-singleton",
+   "section": "I",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:avoid",
+   "enforcement": "not-enforceable"
+  },
+  {
+   "id": "I.4",
+   "anchor": "ri-typed",
+   "section": "I",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "I.5",
+   "anchor": "ri-pre",
+   "section": "I",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "not-enforceable"
+  },
+  {
+   "id": "I.6",
+   "anchor": "ri-expects",
+   "section": "I",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:prefer",
+   "enforcement": "not-enforceable"
+  },
+  {
+   "id": "I.7",
+   "anchor": "ri-post",
+   "section": "I",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "not-enforceable"
+  },
+  {
+   "id": "I.8",
+   "anchor": "ri-ensures",
+   "section": "I",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:prefer",
+   "enforcement": "not-enforceable"
+  },
+  {
+   "id": "I.9",
+   "anchor": "ri-concepts",
+   "section": "I",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "I.10",
+   "anchor": "ri-except",
+   "section": "I",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "not-enforceable"
+  },
+  {
+   "id": "I.11",
+   "anchor": "ri-raw",
+   "section": "I",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "I.12",
+   "anchor": "ri-nullptr",
+   "section": "I",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "I.13",
+   "anchor": "ri-array",
+   "section": "I",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "I.22",
+   "anchor": "ri-global-init",
+   "section": "I",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:avoid",
+   "enforcement": "hint"
+  },
+  {
+   "id": "I.23",
+   "anchor": "ri-nargs",
+   "section": "I",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "not-enforceable"
+  },
+  {
+   "id": "I.24",
+   "anchor": "ri-unrelated",
+   "section": "I",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:avoid",
+   "enforcement": "none"
+  },
+  {
+   "id": "I.25",
+   "anchor": "ri-abstract",
+   "section": "I",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:prefer",
+   "enforcement": "hint"
+  },
+  {
+   "id": "I.26",
+   "anchor": "ri-abi",
+   "section": "I",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "not-enforceable"
+  },
+  {
+   "id": "I.27",
+   "anchor": "ri-pimpl",
+   "section": "I",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:consider",
+   "enforcement": "not-enforceable"
+  },
+  {
+   "id": "I.30",
+   "anchor": "ri-encapsulate",
+   "section": "I",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "F.1",
+   "anchor": "rf-package",
+   "section": "F",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "F.2",
+   "anchor": "rf-logical",
+   "section": "F",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:should",
+   "enforcement": "hint"
+  },
+  {
+   "id": "F.3",
+   "anchor": "rf-single",
+   "section": "F",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "F.4",
+   "anchor": "rf-constexpr",
+   "section": "F",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "not-enforceable"
+  },
+  {
+   "id": "F.5",
+   "anchor": "rf-inline",
+   "section": "F",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "F.6",
+   "anchor": "rf-noexcept",
+   "section": "F",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "F.7",
+   "anchor": "rf-smart",
+   "section": "F",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "F.8",
+   "anchor": "rf-pure",
+   "section": "F",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:prefer",
+   "enforcement": "not-enforceable"
+  },
+  {
+   "id": "F.9",
+   "anchor": "rf-unused",
+   "section": "F",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:should",
+   "enforcement": "hint"
+  },
+  {
+   "id": "F.10",
+   "anchor": "rf-name",
+   "section": "F",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "F.11",
+   "anchor": "rf-lambda",
+   "section": "F",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "F.15",
+   "anchor": "rf-conventional",
+   "section": "F",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:prefer",
+   "enforcement": "none"
+  },
+  {
+   "id": "F.16",
+   "anchor": "rf-in",
+   "section": "F",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "F.17",
+   "anchor": "rf-inout",
+   "section": "F",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "F.18",
+   "anchor": "rf-consume",
+   "section": "F",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "F.19",
+   "anchor": "rf-forward",
+   "section": "F",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "F.20",
+   "anchor": "rf-out",
+   "section": "F",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:prefer",
+   "enforcement": "hint"
+  },
+  {
+   "id": "F.21",
+   "anchor": "rf-out-multi",
+   "section": "F",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:prefer",
+   "enforcement": "hint"
+  },
+  {
+   "id": "F.60",
+   "anchor": "rf-ptr-ref",
+   "section": "F",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:prefer",
+   "enforcement": "hint"
+  },
+  {
+   "id": "F.22",
+   "anchor": "rf-ptr",
+   "section": "F",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "F.23",
+   "anchor": "rf-nullptr",
+   "section": "F",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "F.24",
+   "anchor": "rf-range",
+   "section": "F",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "F.25",
+   "anchor": "rf-zstring",
+   "section": "F",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "F.26",
+   "anchor": "rf-unique_ptr",
+   "section": "F",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "F.27",
+   "anchor": "rf-shared_ptr",
+   "section": "F",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "not-enforceable"
+  },
+  {
+   "id": "F.42",
+   "anchor": "rf-return-ptr",
+   "section": "F",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "F.43",
+   "anchor": "rf-dangle",
+   "section": "F",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "F.44",
+   "anchor": "rf-return-ref",
+   "section": "F",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "F.45",
+   "anchor": "rf-return-ref-ref",
+   "section": "F",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "F.46",
+   "anchor": "rf-main",
+   "section": "F",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "F.47",
+   "anchor": "rf-assignment-op",
+   "section": "F",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "F.48",
+   "anchor": "rf-return-move-local",
+   "section": "F",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "F.49",
+   "anchor": "rf-return-const",
+   "section": "F",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "F.50",
+   "anchor": "rf-capture-vs-overload",
+   "section": "F",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "F.51",
+   "anchor": "rf-default-args",
+   "section": "F",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:prefer",
+   "enforcement": "hint"
+  },
+  {
+   "id": "F.52",
+   "anchor": "rf-reference-capture",
+   "section": "F",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:prefer",
+   "enforcement": "hint"
+  },
+  {
+   "id": "F.53",
+   "anchor": "rf-value-capture",
+   "section": "F",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:avoid",
+   "enforcement": "hint"
+  },
+  {
+   "id": "F.54",
+   "anchor": "rf-this-capture",
+   "section": "F",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "F.55",
+   "anchor": "f-varargs",
+   "section": "F",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "F.56",
+   "anchor": "f-nesting",
+   "section": "F",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:avoid",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.1",
+   "anchor": "rc-org",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "not-enforceable"
+  },
+  {
+   "id": "C.2",
+   "anchor": "rc-struct",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.3",
+   "anchor": "rc-interface",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "incomplete"
+  },
+  {
+   "id": "C.4",
+   "anchor": "rc-member",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.5",
+   "anchor": "rc-helper",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.7",
+   "anchor": "rc-standalone",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.8",
+   "anchor": "rc-class",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.9",
+   "anchor": "rc-private",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.10",
+   "anchor": "rc-concrete",
+   "section": "C",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:prefer",
+   "enforcement": "incomplete"
+  },
+  {
+   "id": "C.11",
+   "anchor": "rc-regular",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "incomplete"
+  },
+  {
+   "id": "C.12",
+   "anchor": "rc-constref",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.13",
+   "anchor": "rc-lifetime",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.20",
+   "anchor": "rc-zero",
+   "section": "C",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:avoid",
+   "enforcement": "not-enforceable"
+  },
+  {
+   "id": "C.21",
+   "anchor": "rc-five",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.22",
+   "anchor": "rc-matched",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.30",
+   "anchor": "rc-dtor",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.31",
+   "anchor": "rc-dtor-release",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.32",
+   "anchor": "rc-dtor-ptr",
+   "section": "C",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:consider",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.33",
+   "anchor": "rc-dtor-ptr2",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.35",
+   "anchor": "rc-dtor-virtual",
+   "section": "C",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:should",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.36",
+   "anchor": "rc-dtor-fail",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.37",
+   "anchor": "rc-dtor-noexcept",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.40",
+   "anchor": "rc-ctor",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.41",
+   "anchor": "rc-complete",
+   "section": "C",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:should",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.42",
+   "anchor": "rc-throw",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "incomplete"
+  },
+  {
+   "id": "C.43",
+   "anchor": "rc-default0",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.44",
+   "anchor": "rc-default00",
+   "section": "C",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:prefer",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.45",
+   "anchor": "rc-default",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.46",
+   "anchor": "rc-explicit",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.47",
+   "anchor": "rc-order",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.48",
+   "anchor": "rc-in-class-initializer",
+   "section": "C",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:prefer",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.49",
+   "anchor": "rc-initialize",
+   "section": "C",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:prefer",
+   "enforcement": "none"
+  },
+  {
+   "id": "C.50",
+   "anchor": "rc-factory",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "C.51",
+   "anchor": "rc-delegating",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.52",
+   "anchor": "rc-inheriting",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.60",
+   "anchor": "rc-copy-assignment",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.61",
+   "anchor": "rc-copy-semantic",
+   "section": "C",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:should",
+   "enforcement": "not-enforceable"
+  },
+  {
+   "id": "C.62",
+   "anchor": "rc-copy-self",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.63",
+   "anchor": "rc-move-assignment",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.64",
+   "anchor": "rc-move-semantic",
+   "section": "C",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:should",
+   "enforcement": "not-enforceable"
+  },
+  {
+   "id": "C.65",
+   "anchor": "rc-move-self",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "not-enforceable"
+  },
+  {
+   "id": "C.66",
+   "anchor": "rc-move-noexcept",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.67",
+   "anchor": "rc-copy-virtual",
+   "section": "C",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:should",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.80",
+   "anchor": "rc-eqdefault",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.81",
+   "anchor": "rc-delete",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.82",
+   "anchor": "rc-ctor-virtual",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.83",
+   "anchor": "rc-swap",
+   "section": "C",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:consider",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.84",
+   "anchor": "rc-swap-fail",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.85",
+   "anchor": "rc-swap-noexcept",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.86",
+   "anchor": "rc-eq",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.87",
+   "anchor": "rc-eq-base",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.89",
+   "anchor": "rc-hash",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.90",
+   "anchor": "rc-memset",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.100",
+   "anchor": "rcon-stl",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "incomplete"
+  },
+  {
+   "id": "C.101",
+   "anchor": "rcon-val",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "incomplete"
+  },
+  {
+   "id": "C.102",
+   "anchor": "rcon-move",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "incomplete"
+  },
+  {
+   "id": "C.103",
+   "anchor": "rcon-init",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "incomplete"
+  },
+  {
+   "id": "C.104",
+   "anchor": "rcon-empty",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "incomplete"
+  },
+  {
+   "id": "C.109",
+   "anchor": "rcon-ptr",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "incomplete"
+  },
+  {
+   "id": "C.120",
+   "anchor": "rh-domain",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.121",
+   "anchor": "rh-abstract",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.122",
+   "anchor": "rh-separation",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "incomplete"
+  },
+  {
+   "id": "C.126",
+   "anchor": "rh-abstract-ctor",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.127",
+   "anchor": "rh-dtor",
+   "section": "C",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:should",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.128",
+   "anchor": "rh-override",
+   "section": "C",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:should",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.129",
+   "anchor": "rh-kind",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.130",
+   "anchor": "rh-copy",
+   "section": "C",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:prefer",
+   "enforcement": "none"
+  },
+  {
+   "id": "C.131",
+   "anchor": "rh-get",
+   "section": "C",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:avoid",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.132",
+   "anchor": "rh-virtual",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.133",
+   "anchor": "rh-protected",
+   "section": "C",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:avoid",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.134",
+   "anchor": "rh-public",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.135",
+   "anchor": "rh-mi-interface",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "incomplete"
+  },
+  {
+   "id": "C.136",
+   "anchor": "rh-mi-implementation",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "incomplete"
+  },
+  {
+   "id": "C.137",
+   "anchor": "rh-vbase",
+   "section": "C",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:avoid",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.138",
+   "anchor": "rh-using",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.139",
+   "anchor": "rh-final",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.140",
+   "anchor": "rh-virtual-default-arg",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.145",
+   "anchor": "rh-poly",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.146",
+   "anchor": "rh-dynamic_cast",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.147",
+   "anchor": "rh-ref-cast",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "incomplete"
+  },
+  {
+   "id": "C.148",
+   "anchor": "rh-ptr-cast",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.149",
+   "anchor": "rh-smart",
+   "section": "C",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:avoid",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.150",
+   "anchor": "rh-make_unique",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "C.151",
+   "anchor": "rh-make_shared",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "C.152",
+   "anchor": "rh-array",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.153",
+   "anchor": "rh-use-virtual",
+   "section": "C",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:prefer",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.160",
+   "anchor": "ro-conventional",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "not-enforceable"
+  },
+  {
+   "id": "C.161",
+   "anchor": "ro-symmetric",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.162",
+   "anchor": "ro-equivalent",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "incomplete"
+  },
+  {
+   "id": "C.163",
+   "anchor": "ro-equivalent-2",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "incomplete"
+  },
+  {
+   "id": "C.164",
+   "anchor": "ro-conversion",
+   "section": "C",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:avoid",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.165",
+   "anchor": "ro-custom",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.166",
+   "anchor": "ro-address-of",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.167",
+   "anchor": "ro-overload",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.168",
+   "anchor": "ro-namespace",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.170",
+   "anchor": "ro-lambda",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "C.180",
+   "anchor": "ru-union",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "incomplete"
+  },
+  {
+   "id": "C.181",
+   "anchor": "ru-naked",
+   "section": "C",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:avoid",
+   "enforcement": "incomplete"
+  },
+  {
+   "id": "C.182",
+   "anchor": "ru-anonymous",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "incomplete"
+  },
+  {
+   "id": "C.183",
+   "anchor": "ru-pun",
+   "section": "C",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "incomplete"
+  },
+  {
+   "id": "Enum.1",
+   "anchor": "renum-macro",
+   "section": "Enum",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:prefer",
+   "enforcement": "hint"
+  },
+  {
+   "id": "Enum.2",
+   "anchor": "renum-set",
+   "section": "Enum",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "Enum.3",
+   "anchor": "renum-class",
+   "section": "Enum",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:prefer",
+   "enforcement": "hint"
+  },
+  {
+   "id": "Enum.4",
+   "anchor": "renum-oper",
+   "section": "Enum",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "Enum.5",
+   "anchor": "renum-caps",
+   "section": "Enum",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "Enum.6",
+   "anchor": "renum-unnamed",
+   "section": "Enum",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:avoid",
+   "enforcement": "hint"
+  },
+  {
+   "id": "Enum.7",
+   "anchor": "renum-underlying",
+   "section": "Enum",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "Enum.8",
+   "anchor": "renum-value",
+   "section": "Enum",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "R.1",
+   "anchor": "rr-raii",
+   "section": "R",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "R.2",
+   "anchor": "rr-use-ptr",
+   "section": "R",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "R.3",
+   "anchor": "rr-ptr",
+   "section": "R",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "R.4",
+   "anchor": "rr-ref",
+   "section": "R",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "R.5",
+   "anchor": "rr-scoped",
+   "section": "R",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:prefer",
+   "enforcement": "hint"
+  },
+  {
+   "id": "R.6",
+   "anchor": "rr-global",
+   "section": "R",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:avoid",
+   "enforcement": "none"
+  },
+  {
+   "id": "R.10",
+   "anchor": "rr-mallocfree",
+   "section": "R",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:avoid",
+   "enforcement": "hint"
+  },
+  {
+   "id": "R.11",
+   "anchor": "rr-newdelete",
+   "section": "R",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:avoid",
+   "enforcement": "hint"
+  },
+  {
+   "id": "R.12",
+   "anchor": "rr-immediate-alloc",
+   "section": "R",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "R.13",
+   "anchor": "rr-single-alloc",
+   "section": "R",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "R.14",
+   "anchor": "rr-ap",
+   "section": "R",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:avoid",
+   "enforcement": "hint"
+  },
+  {
+   "id": "R.15",
+   "anchor": "rr-pair",
+   "section": "R",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "R.20",
+   "anchor": "rr-owner",
+   "section": "R",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "R.21",
+   "anchor": "rr-unique",
+   "section": "R",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:prefer",
+   "enforcement": "hint"
+  },
+  {
+   "id": "R.22",
+   "anchor": "rr-make_shared",
+   "section": "R",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "R.23",
+   "anchor": "rr-make_unique",
+   "section": "R",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "R.24",
+   "anchor": "rr-weak_ptr",
+   "section": "R",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "not-enforceable"
+  },
+  {
+   "id": "R.30",
+   "anchor": "rr-smartptrparam",
+   "section": "R",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "R.31",
+   "anchor": "rr-smart",
+   "section": "R",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "R.32",
+   "anchor": "rr-uniqueptrparam",
+   "section": "R",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "R.33",
+   "anchor": "rr-reseat",
+   "section": "R",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "R.34",
+   "anchor": "rr-sharedptrparam-owner",
+   "section": "R",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "R.35",
+   "anchor": "rr-sharedptrparam",
+   "section": "R",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "R.36",
+   "anchor": "rr-sharedptrparam-const",
+   "section": "R",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "R.37",
+   "anchor": "rr-smartptrget",
+   "section": "R",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "ES.1",
+   "anchor": "res-lib",
+   "section": "ES",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:prefer",
+   "enforcement": "hint"
+  },
+  {
+   "id": "ES.2",
+   "anchor": "res-abstr",
+   "section": "ES",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:prefer",
+   "enforcement": "hint"
+  },
+  {
+   "id": "ES.3",
+   "anchor": "res-dry",
+   "section": "ES",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:avoid",
+   "enforcement": "hint"
+  },
+  {
+   "id": "ES.5",
+   "anchor": "res-scope",
+   "section": "ES",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "ES.6",
+   "anchor": "res-cond",
+   "section": "ES",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "ES.7",
+   "anchor": "res-name-length",
+   "section": "ES",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "ES.8",
+   "anchor": "res-name-similar",
+   "section": "ES",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:avoid",
+   "enforcement": "hint"
+  },
+  {
+   "id": "ES.9",
+   "anchor": "res-not-caps",
+   "section": "ES",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:avoid",
+   "enforcement": "hint"
+  },
+  {
+   "id": "ES.10",
+   "anchor": "res-name-one",
+   "section": "ES",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "ES.11",
+   "anchor": "res-auto",
+   "section": "ES",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:avoid",
+   "enforcement": "hint"
+  },
+  {
+   "id": "ES.12",
+   "anchor": "res-reuse",
+   "section": "ES",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "ES.20",
+   "anchor": "res-always",
+   "section": "ES",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "ES.21",
+   "anchor": "res-introduce",
+   "section": "ES",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "ES.22",
+   "anchor": "res-init",
+   "section": "ES",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "ES.23",
+   "anchor": "res-list",
+   "section": "ES",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:prefer",
+   "enforcement": "hint"
+  },
+  {
+   "id": "ES.24",
+   "anchor": "res-unique",
+   "section": "ES",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "ES.25",
+   "anchor": "res-const",
+   "section": "ES",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "not-enforceable"
+  },
+  {
+   "id": "ES.26",
+   "anchor": "res-recycle",
+   "section": "ES",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "ES.27",
+   "anchor": "res-stack",
+   "section": "ES",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "ES.28",
+   "anchor": "res-lambda-init",
+   "section": "ES",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "ES.30",
+   "anchor": "res-macros",
+   "section": "ES",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "ES.31",
+   "anchor": "res-macros2",
+   "section": "ES",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "ES.32",
+   "anchor": "res-all_caps",
+   "section": "ES",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "ES.33",
+   "anchor": "res-macros3",
+   "section": "ES",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "ES.34",
+   "anchor": "res-ellipses",
+   "section": "ES",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "ES.40",
+   "anchor": "res-complicated",
+   "section": "ES",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:avoid",
+   "enforcement": "hint"
+  },
+  {
+   "id": "ES.41",
+   "anchor": "res-parens",
+   "section": "ES",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "ES.42",
+   "anchor": "res-ptr",
+   "section": "ES",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "ES.43",
+   "anchor": "res-order",
+   "section": "ES",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:avoid",
+   "enforcement": "hint"
+  },
+  {
+   "id": "ES.44",
+   "anchor": "res-order-fct",
+   "section": "ES",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "ES.45",
+   "anchor": "res-magic",
+   "section": "ES",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:avoid",
+   "enforcement": "hint"
+  },
+  {
+   "id": "ES.46",
+   "anchor": "res-narrowing",
+   "section": "ES",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:avoid",
+   "enforcement": "hint"
+  },
+  {
+   "id": "ES.47",
+   "anchor": "res-nullptr",
+   "section": "ES",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "ES.48",
+   "anchor": "res-casts",
+   "section": "ES",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:avoid",
+   "enforcement": "hint"
+  },
+  {
+   "id": "ES.49",
+   "anchor": "res-casts-named",
+   "section": "ES",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "ES.50",
+   "anchor": "res-casts-const",
+   "section": "ES",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "ES.55",
+   "anchor": "res-range-checking",
+   "section": "ES",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:avoid",
+   "enforcement": "hint"
+  },
+  {
+   "id": "ES.56",
+   "anchor": "res-move",
+   "section": "ES",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "ES.60",
+   "anchor": "res-new",
+   "section": "ES",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:avoid",
+   "enforcement": "hint"
+  },
+  {
+   "id": "ES.61",
+   "anchor": "res-del",
+   "section": "ES",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "ES.62",
+   "anchor": "res-arr2",
+   "section": "ES",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "incomplete"
+  },
+  {
+   "id": "ES.63",
+   "anchor": "res-slice",
+   "section": "ES",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "ES.64",
+   "anchor": "res-construct",
+   "section": "ES",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "ES.65",
+   "anchor": "res-deref",
+   "section": "ES",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "ES.70",
+   "anchor": "res-switch-if",
+   "section": "ES",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:prefer",
+   "enforcement": "hint"
+  },
+  {
+   "id": "ES.71",
+   "anchor": "res-for-range",
+   "section": "ES",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:prefer",
+   "enforcement": "hint"
+  },
+  {
+   "id": "ES.72",
+   "anchor": "res-for-while",
+   "section": "ES",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:prefer",
+   "enforcement": "incomplete"
+  },
+  {
+   "id": "ES.73",
+   "anchor": "res-while-for",
+   "section": "ES",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:prefer",
+   "enforcement": "hint"
+  },
+  {
+   "id": "ES.74",
+   "anchor": "res-for-init",
+   "section": "ES",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:prefer",
+   "enforcement": "none"
+  },
+  {
+   "id": "ES.75",
+   "anchor": "res-do",
+   "section": "ES",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:avoid",
+   "enforcement": "hint"
+  },
+  {
+   "id": "ES.76",
+   "anchor": "res-goto",
+   "section": "ES",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:avoid",
+   "enforcement": "hint"
+  },
+  {
+   "id": "ES.77",
+   "anchor": "res-continue",
+   "section": "ES",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "incomplete"
+  },
+  {
+   "id": "ES.78",
+   "anchor": "res-break",
+   "section": "ES",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "ES.79",
+   "anchor": "res-default",
+   "section": "ES",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "ES.84",
+   "anchor": "res-noname",
+   "section": "ES",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "ES.85",
+   "anchor": "res-empty",
+   "section": "ES",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "ES.86",
+   "anchor": "res-loop-counter",
+   "section": "ES",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:avoid",
+   "enforcement": "hint"
+  },
+  {
+   "id": "ES.87",
+   "anchor": "res-if",
+   "section": "ES",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "ES.100",
+   "anchor": "res-mix",
+   "section": "ES",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "ES.101",
+   "anchor": "res-unsigned",
+   "section": "ES",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "not-enforceable"
+  },
+  {
+   "id": "ES.102",
+   "anchor": "res-signed",
+   "section": "ES",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "ES.103",
+   "anchor": "res-overflow",
+   "section": "ES",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "incomplete"
+  },
+  {
+   "id": "ES.104",
+   "anchor": "res-underflow",
+   "section": "ES",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "incomplete"
+  },
+  {
+   "id": "ES.105",
+   "anchor": "res-zero",
+   "section": "ES",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "ES.106",
+   "anchor": "res-nonnegative",
+   "section": "ES",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:avoid",
+   "enforcement": "hint"
+  },
+  {
+   "id": "ES.107",
+   "anchor": "res-subscripts",
+   "section": "ES",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:prefer",
+   "enforcement": "hint"
+  },
+  {
+   "id": "Per.1",
+   "anchor": "rper-reason",
+   "section": "Per",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "Per.2",
+   "anchor": "rper-knuth",
+   "section": "Per",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "Per.3",
+   "anchor": "rper-critical",
+   "section": "Per",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "Per.4",
+   "anchor": "rper-simple",
+   "section": "Per",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "Per.5",
+   "anchor": "rper-low",
+   "section": "Per",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "Per.6",
+   "anchor": "rper-measure",
+   "section": "Per",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "Per.7",
+   "anchor": "rper-efficiency",
+   "section": "Per",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "Per.10",
+   "anchor": "rper-type",
+   "section": "Per",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "Per.11",
+   "anchor": "rper-comp",
+   "section": "Per",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "Per.12",
+   "anchor": "rper-alias",
+   "section": "Per",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "Per.13",
+   "anchor": "rper-indirect",
+   "section": "Per",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "Per.14",
+   "anchor": "rper-alloc",
+   "section": "Per",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "Per.15",
+   "anchor": "rper-alloc0",
+   "section": "Per",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "Per.16",
+   "anchor": "rper-compact",
+   "section": "Per",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "Per.17",
+   "anchor": "rper-struct",
+   "section": "Per",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "Per.18",
+   "anchor": "rper-space",
+   "section": "Per",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "Per.19",
+   "anchor": "rper-access",
+   "section": "Per",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "Per.30",
+   "anchor": "rper-context",
+   "section": "Per",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:avoid",
+   "enforcement": "none"
+  },
+  {
+   "id": "CP.1",
+   "anchor": "rconc-multi",
+   "section": "CP",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "CP.2",
+   "anchor": "rconc-races",
+   "section": "CP",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:avoid",
+   "enforcement": "hint"
+  },
+  {
+   "id": "CP.3",
+   "anchor": "rconc-data",
+   "section": "CP",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "incomplete"
+  },
+  {
+   "id": "CP.4",
+   "anchor": "rconc-task",
+   "section": "CP",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "incomplete"
+  },
+  {
+   "id": "CP.8",
+   "anchor": "rconc-volatile",
+   "section": "CP",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "CP.9",
+   "anchor": "rconc-tools",
+   "section": "CP",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "CP.20",
+   "anchor": "rconc-raii",
+   "section": "CP",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "CP.21",
+   "anchor": "rconc-lock",
+   "section": "CP",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "CP.22",
+   "anchor": "rconc-unknown",
+   "section": "CP",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "CP.23",
+   "anchor": "rconc-join",
+   "section": "CP",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "CP.24",
+   "anchor": "rconc-detach",
+   "section": "CP",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "CP.25",
+   "anchor": "rconc-joining_thread",
+   "section": "CP",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:prefer",
+   "enforcement": "hint"
+  },
+  {
+   "id": "CP.26",
+   "anchor": "rconc-detached_thread",
+   "section": "CP",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "CP.31",
+   "anchor": "rconc-data-by-value",
+   "section": "CP",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "incomplete"
+  },
+  {
+   "id": "CP.32",
+   "anchor": "rconc-shared",
+   "section": "CP",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "incomplete"
+  },
+  {
+   "id": "CP.40",
+   "anchor": "rconc-switch",
+   "section": "CP",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "incomplete"
+  },
+  {
+   "id": "CP.41",
+   "anchor": "rconc-create",
+   "section": "CP",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "incomplete"
+  },
+  {
+   "id": "CP.42",
+   "anchor": "rconc-wait",
+   "section": "CP",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "CP.43",
+   "anchor": "rconc-time",
+   "section": "CP",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "not-enforceable"
+  },
+  {
+   "id": "CP.44",
+   "anchor": "rconc-name",
+   "section": "CP",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "CP.50",
+   "anchor": "rconc-mutex",
+   "section": "CP",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "CP.51",
+   "anchor": "rcoro-capture",
+   "section": "CP",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "CP.52",
+   "anchor": "rcoro-locks",
+   "section": "CP",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "CP.53",
+   "anchor": "rcoro-reference-parameters",
+   "section": "CP",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:should",
+   "enforcement": "hint"
+  },
+  {
+   "id": "CP.60",
+   "anchor": "rconc-future",
+   "section": "CP",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "incomplete"
+  },
+  {
+   "id": "CP.61",
+   "anchor": "rconc-async",
+   "section": "CP",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "incomplete"
+  },
+  {
+   "id": "CP.100",
+   "anchor": "rconc-lockfree",
+   "section": "CP",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "CP.101",
+   "anchor": "rconc-distrust",
+   "section": "CP",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "CP.102",
+   "anchor": "rconc-literature",
+   "section": "CP",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "CP.110",
+   "anchor": "rconc-double",
+   "section": "CP",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "CP.111",
+   "anchor": "rconc-double-pattern",
+   "section": "CP",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "CP.200",
+   "anchor": "rconc-volatile2",
+   "section": "CP",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "CP.201",
+   "anchor": "rconc-signal",
+   "section": "CP",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "E.1",
+   "anchor": "re-design",
+   "section": "E",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "E.2",
+   "anchor": "re-throw",
+   "section": "E",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "E.3",
+   "anchor": "re-errors",
+   "section": "E",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "E.4",
+   "anchor": "re-design-invariants",
+   "section": "E",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "incomplete"
+  },
+  {
+   "id": "E.5",
+   "anchor": "re-invariant",
+   "section": "E",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "E.6",
+   "anchor": "re-raii",
+   "section": "E",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "incomplete"
+  },
+  {
+   "id": "E.7",
+   "anchor": "re-precondition",
+   "section": "E",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "E.8",
+   "anchor": "re-postcondition",
+   "section": "E",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "E.12",
+   "anchor": "re-noexcept",
+   "section": "E",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "E.13",
+   "anchor": "re-never-throw",
+   "section": "E",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "E.14",
+   "anchor": "re-exception-types",
+   "section": "E",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "E.15",
+   "anchor": "re-exception-ref",
+   "section": "E",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "E.16",
+   "anchor": "re-never-fail",
+   "section": "E",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "E.17",
+   "anchor": "re-not-always",
+   "section": "E",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "E.18",
+   "anchor": "re-catch",
+   "section": "E",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "E.19",
+   "anchor": "re-finally",
+   "section": "E",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "E.25",
+   "anchor": "re-no-throw-raii",
+   "section": "E",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "E.26",
+   "anchor": "re-no-throw-crash",
+   "section": "E",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:consider",
+   "enforcement": "hint"
+  },
+  {
+   "id": "E.27",
+   "anchor": "re-no-throw-codes",
+   "section": "E",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "E.28",
+   "anchor": "re-no-throw",
+   "section": "E",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:avoid",
+   "enforcement": "hint"
+  },
+  {
+   "id": "E.30",
+   "anchor": "re-specifications",
+   "section": "E",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "E.31",
+   "anchor": "re_catch",
+   "section": "E",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "Con.1",
+   "anchor": "rconst-immutable",
+   "section": "Con",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "Con.2",
+   "anchor": "rconst-fct",
+   "section": "Con",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "Con.3",
+   "anchor": "rconst-ref",
+   "section": "Con",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "Con.4",
+   "anchor": "rconst-const",
+   "section": "Con",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "Con.5",
+   "anchor": "rconst-constexpr",
+   "section": "Con",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "T.1",
+   "anchor": "rt-raise",
+   "section": "T",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "T.2",
+   "anchor": "rt-algo",
+   "section": "T",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "T.3",
+   "anchor": "rt-cont",
+   "section": "T",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "T.4",
+   "anchor": "rt-expr",
+   "section": "T",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "T.5",
+   "anchor": "rt-generic-oo",
+   "section": "T",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "T.10",
+   "anchor": "rt-concepts",
+   "section": "T",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "T.11",
+   "anchor": "rt-std-concepts",
+   "section": "T",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "T.12",
+   "anchor": "rt-auto",
+   "section": "T",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:prefer",
+   "enforcement": "incomplete"
+  },
+  {
+   "id": "T.13",
+   "anchor": "rt-shorthand",
+   "section": "T",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:prefer",
+   "enforcement": "hint"
+  },
+  {
+   "id": "T.20",
+   "anchor": "rt-low",
+   "section": "T",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:avoid",
+   "enforcement": "hint"
+  },
+  {
+   "id": "T.21",
+   "anchor": "rt-complete",
+   "section": "T",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "T.22",
+   "anchor": "rt-axiom",
+   "section": "T",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "T.23",
+   "anchor": "rt-refine",
+   "section": "T",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "T.24",
+   "anchor": "rt-tag",
+   "section": "T",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "T.25",
+   "anchor": "rt-not",
+   "section": "T",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:avoid",
+   "enforcement": "hint"
+  },
+  {
+   "id": "T.26",
+   "anchor": "rt-use",
+   "section": "T",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:prefer",
+   "enforcement": "incomplete"
+  },
+  {
+   "id": "T.40",
+   "anchor": "rt-fo",
+   "section": "T",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "T.41",
+   "anchor": "rt-essential",
+   "section": "T",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "incomplete"
+  },
+  {
+   "id": "T.42",
+   "anchor": "rt-alias",
+   "section": "T",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "T.43",
+   "anchor": "rt-using",
+   "section": "T",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:prefer",
+   "enforcement": "hint"
+  },
+  {
+   "id": "T.44",
+   "anchor": "rt-deduce",
+   "section": "T",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "T.46",
+   "anchor": "rt-regular",
+   "section": "T",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "T.47",
+   "anchor": "rt-visible",
+   "section": "T",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:avoid",
+   "enforcement": "hint"
+  },
+  {
+   "id": "T.48",
+   "anchor": "rt-concept-def",
+   "section": "T",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "incomplete"
+  },
+  {
+   "id": "T.49",
+   "anchor": "rt-erasure",
+   "section": "T",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:avoid",
+   "enforcement": "incomplete"
+  },
+  {
+   "id": "T.60",
+   "anchor": "rt-depend",
+   "section": "T",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "T.61",
+   "anchor": "rt-scary",
+   "section": "T",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "T.62",
+   "anchor": "rt-nondependent",
+   "section": "T",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "T.64",
+   "anchor": "rt-specialization",
+   "section": "T",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "incomplete"
+  },
+  {
+   "id": "T.65",
+   "anchor": "rt-tag-dispatch",
+   "section": "T",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "incomplete"
+  },
+  {
+   "id": "T.67",
+   "anchor": "rt-specialization2",
+   "section": "T",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "incomplete"
+  },
+  {
+   "id": "T.68",
+   "anchor": "rt-cast",
+   "section": "T",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:avoid",
+   "enforcement": "hint"
+  },
+  {
+   "id": "T.69",
+   "anchor": "rt-customization",
+   "section": "T",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "T.80",
+   "anchor": "rt-hier",
+   "section": "T",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "T.81",
+   "anchor": "rt-array",
+   "section": "T",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "T.82",
+   "anchor": "rt-linear",
+   "section": "T",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "incomplete"
+  },
+  {
+   "id": "T.83",
+   "anchor": "rt-virtual",
+   "section": "T",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "T.84",
+   "anchor": "rt-abi",
+   "section": "T",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "incomplete"
+  },
+  {
+   "id": "T.100",
+   "anchor": "rt-variadic",
+   "section": "T",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "T.101",
+   "anchor": "rt-variadic-pass",
+   "section": "T",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "incomplete"
+  },
+  {
+   "id": "T.102",
+   "anchor": "rt-variadic-process",
+   "section": "T",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "incomplete"
+  },
+  {
+   "id": "T.103",
+   "anchor": "rt-variadic-not",
+   "section": "T",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "incomplete"
+  },
+  {
+   "id": "T.120",
+   "anchor": "rt-metameta",
+   "section": "T",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "T.121",
+   "anchor": "rt-emulate",
+   "section": "T",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "incomplete"
+  },
+  {
+   "id": "T.122",
+   "anchor": "rt-tmp",
+   "section": "T",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "incomplete"
+  },
+  {
+   "id": "T.123",
+   "anchor": "rt-fct",
+   "section": "T",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "T.124",
+   "anchor": "rt-std-tmp",
+   "section": "T",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:prefer",
+   "enforcement": "incomplete"
+  },
+  {
+   "id": "T.125",
+   "anchor": "rt-lib",
+   "section": "T",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "incomplete"
+  },
+  {
+   "id": "T.140",
+   "anchor": "rt-name",
+   "section": "T",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "T.141",
+   "anchor": "rt-lambda",
+   "section": "T",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "T.142?",
+   "anchor": "rt-var",
+   "section": "T",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "incomplete"
+  },
+  {
+   "id": "T.143",
+   "anchor": "rt-non-generic",
+   "section": "T",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "T.144",
+   "anchor": "rt-specialize-function",
+   "section": "T",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "T.150",
+   "anchor": "rt-check-class",
+   "section": "T",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "CPL.1",
+   "anchor": "rcpl-c",
+   "section": "CPL",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:prefer",
+   "enforcement": "hint"
+  },
+  {
+   "id": "CPL.2",
+   "anchor": "rcpl-subset",
+   "section": "CPL",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "CPL.3",
+   "anchor": "rcpl-interface",
+   "section": "CPL",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "SF.1",
+   "anchor": "rs-file-suffix",
+   "section": "SF",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "SF.2",
+   "anchor": "rs-inline",
+   "section": "SF",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "SF.3",
+   "anchor": "rs-declaration-header",
+   "section": "SF",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "SF.4",
+   "anchor": "rs-include-order",
+   "section": "SF",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "SF.5",
+   "anchor": "rs-consistency",
+   "section": "SF",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "incomplete"
+  },
+  {
+   "id": "SF.6",
+   "anchor": "rs-using",
+   "section": "SF",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "SF.7",
+   "anchor": "rs-using-directive",
+   "section": "SF",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "SF.8",
+   "anchor": "rs-guards",
+   "section": "SF",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "SF.9",
+   "anchor": "rs-cycles",
+   "section": "SF",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:avoid",
+   "enforcement": "hint"
+  },
+  {
+   "id": "SF.10",
+   "anchor": "rs-implicit",
+   "section": "SF",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:avoid",
+   "enforcement": "hint"
+  },
+  {
+   "id": "SF.11",
+   "anchor": "rs-contained",
+   "section": "SF",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:should",
+   "enforcement": "hint"
+  },
+  {
+   "id": "SF.12",
+   "anchor": "rs-incform",
+   "section": "SF",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:prefer",
+   "enforcement": "hint"
+  },
+  {
+   "id": "SF.13",
+   "anchor": "rs-portable-header-id",
+   "section": "SF",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "SF.20",
+   "anchor": "rs-namespace",
+   "section": "SF",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "incomplete"
+  },
+  {
+   "id": "SF.21",
+   "anchor": "rs-unnamed",
+   "section": "SF",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "SF.22",
+   "anchor": "rs-unnamed2",
+   "section": "SF",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "incomplete"
+  },
+  {
+   "id": "SL.1",
+   "anchor": "rsl-lib",
+   "section": "SL",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "SL.2",
+   "anchor": "rsl-sl",
+   "section": "SL",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:prefer",
+   "enforcement": "none"
+  },
+  {
+   "id": "SL.3",
+   "anchor": "sl-std",
+   "section": "SL",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "SL.4",
+   "anchor": "sl-safe",
+   "section": "SL",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "SL.con.1",
+   "anchor": "rsl-arrays",
+   "section": "SL",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:prefer",
+   "enforcement": "hint"
+  },
+  {
+   "id": "SL.con.2",
+   "anchor": "rsl-vector",
+   "section": "SL",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:prefer",
+   "enforcement": "hint"
+  },
+  {
+   "id": "SL.con.3",
+   "anchor": "rsl-bounds",
+   "section": "SL",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:avoid",
+   "enforcement": "hint"
+  },
+  {
+   "id": "SL.con.4",
+   "anchor": "rsl-copy",
+   "section": "SL",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "SL.str.1",
+   "anchor": "rstr-string",
+   "section": "SL",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "incomplete"
+  },
+  {
+   "id": "SL.str.2",
+   "anchor": "rstr-view",
+   "section": "SL",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "incomplete"
+  },
+  {
+   "id": "SL.str.3",
+   "anchor": "rstr-zstring",
+   "section": "SL",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "SL.str.4",
+   "anchor": "rstr-charp",
+   "section": "SL",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "SL.str.5",
+   "anchor": "rstr-byte",
+   "section": "SL",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "incomplete"
+  },
+  {
+   "id": "SL.str.10",
+   "anchor": "rstr-locale",
+   "section": "SL",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "incomplete"
+  },
+  {
+   "id": "SL.str.11",
+   "anchor": "rstr-span",
+   "section": "SL",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "SL.str.12",
+   "anchor": "rstr-s",
+   "section": "SL",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "incomplete"
+  },
+  {
+   "id": "SL.io.1",
+   "anchor": "rio-low",
+   "section": "SL",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "incomplete"
+  },
+  {
+   "id": "SL.io.2",
+   "anchor": "rio-validate",
+   "section": "SL",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:consider",
+   "enforcement": "incomplete"
+  },
+  {
+   "id": "SL.io.3",
+   "anchor": "rio-streams",
+   "section": "SL",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:prefer",
+   "enforcement": "hint"
+  },
+  {
+   "id": "SL.io.10",
+   "anchor": "rio-sync",
+   "section": "SL",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "incomplete"
+  },
+  {
+   "id": "SL.io.50",
+   "anchor": "rio-endl",
+   "section": "SL",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:avoid",
+   "enforcement": "none"
+  },
+  {
+   "id": "SL.C.1",
+   "anchor": "rclib-jmp",
+   "section": "SL",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "A.1",
+   "anchor": "ra-stable",
+   "section": "A",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "A.2",
+   "anchor": "ra-lib",
+   "section": "A",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "A.4",
+   "anchor": "ra-dag",
+   "section": "A",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:should",
+   "enforcement": "none"
+  },
+  {
+   "id": "NR.1",
+   "anchor": "rnr-top",
+   "section": "NR",
+   "kind": "non-rule",
+   "severity": "warning",
+   "severityReason": "title:should",
+   "enforcement": "none"
+  },
+  {
+   "id": "NR.2",
+   "anchor": "rnr-single-return",
+   "section": "NR",
+   "kind": "non-rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "NR.3",
+   "anchor": "rnr-no-exceptions",
+   "section": "NR",
+   "kind": "non-rule",
+   "severity": "warning",
+   "severityReason": "title:avoid",
+   "enforcement": "none"
+  },
+  {
+   "id": "NR.4",
+   "anchor": "rnr-lots-of-files",
+   "section": "NR",
+   "kind": "non-rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "NR.5",
+   "anchor": "rnr-two-phase-init",
+   "section": "NR",
+   "kind": "non-rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "NR.6",
+   "anchor": "rnr-goto-exit",
+   "section": "NR",
+   "kind": "non-rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "NR.7",
+   "anchor": "rnr-protected-data",
+   "section": "NR",
+   "kind": "non-rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "NL.1",
+   "anchor": "rl-comments",
+   "section": "NL",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "NL.2",
+   "anchor": "rl-comments-intent",
+   "section": "NL",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "NL.3",
+   "anchor": "rl-comments-crisp",
+   "section": "NL",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "not-enforceable"
+  },
+  {
+   "id": "NL.4",
+   "anchor": "rl-indent",
+   "section": "NL",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "NL.5",
+   "anchor": "rl-name-type",
+   "section": "NL",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:avoid",
+   "enforcement": "none"
+  },
+  {
+   "id": "NL.7",
+   "anchor": "rl-name-length",
+   "section": "NL",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "incomplete"
+  },
+  {
+   "id": "NL.8",
+   "anchor": "rl-name",
+   "section": "NL",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "NL.9",
+   "anchor": "rl-all-caps",
+   "section": "NL",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "NL.10",
+   "anchor": "rl-camel",
+   "section": "NL",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "explicit-recommendation",
+   "enforcement": "not-enforceable"
+  },
+  {
+   "id": "NL.11",
+   "anchor": "rl-literals",
+   "section": "NL",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "NL.15",
+   "anchor": "rl-space",
+   "section": "NL",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "explicit-recommendation",
+   "enforcement": "none"
+  },
+  {
+   "id": "NL.16",
+   "anchor": "rl-order",
+   "section": "NL",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "explicit-recommendation",
+   "enforcement": "hint"
+  },
+  {
+   "id": "NL.17",
+   "anchor": "rl-knr",
+   "section": "NL",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "explicit-recommendation",
+   "enforcement": "hint"
+  },
+  {
+   "id": "NL.18",
+   "anchor": "rl-ptr",
+   "section": "NL",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "explicit-recommendation",
+   "enforcement": "not-enforceable"
+  },
+  {
+   "id": "NL.19",
+   "anchor": "rl-misread",
+   "section": "NL",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "title:avoid",
+   "enforcement": "incomplete"
+  },
+  {
+   "id": "NL.20",
+   "anchor": "rl-stmt",
+   "section": "NL",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "NL.21",
+   "anchor": "rl-dcl",
+   "section": "NL",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "NL.25",
+   "anchor": "rl-void",
+   "section": "NL",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "NL.26",
+   "anchor": "rl-const",
+   "section": "NL",
+   "kind": "rule",
+   "severity": "warning",
+   "severityReason": "explicit-recommendation",
+   "enforcement": "hint"
+  },
+  {
+   "id": "NL.27",
+   "anchor": "rl-file-suffix",
+   "section": "NL",
+   "kind": "rule",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "hint"
+  },
+  {
+   "id": "FAQ.1",
+   "anchor": "faq-aims",
+   "section": "FAQ",
+   "kind": "faq",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "FAQ.2",
+   "anchor": "faq-announced",
+   "section": "FAQ",
+   "kind": "faq",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "FAQ.3",
+   "anchor": "faq-maintainers",
+   "section": "FAQ",
+   "kind": "faq",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "FAQ.4",
+   "anchor": "faq-contribute",
+   "section": "FAQ",
+   "kind": "faq",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "FAQ.5",
+   "anchor": "faq-maintainer",
+   "section": "FAQ",
+   "kind": "faq",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "FAQ.6",
+   "anchor": "faq-iso",
+   "section": "FAQ",
+   "kind": "faq",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "FAQ.7",
+   "anchor": "faq-isocpp",
+   "section": "FAQ",
+   "kind": "faq",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "FAQ.8",
+   "anchor": "faq-cpp98",
+   "section": "FAQ",
+   "kind": "faq",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "FAQ.9",
+   "anchor": "faq-language-extensions",
+   "section": "FAQ",
+   "kind": "faq",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "FAQ.10",
+   "anchor": "faq-markdown",
+   "section": "FAQ",
+   "kind": "faq",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "FAQ.50",
+   "anchor": "faq-gsl",
+   "section": "FAQ",
+   "kind": "faq",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "FAQ.51",
+   "anchor": "faq-msgsl",
+   "section": "FAQ",
+   "kind": "faq",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "FAQ.52",
+   "anchor": "faq-gsl-implementation",
+   "section": "FAQ",
+   "kind": "faq",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "FAQ.53",
+   "anchor": "faq-boost",
+   "section": "FAQ",
+   "kind": "faq",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "FAQ.54",
+   "anchor": "faq-gsl-iso",
+   "section": "FAQ",
+   "kind": "faq",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "FAQ.55",
+   "anchor": "faq-gsl-string-view",
+   "section": "FAQ",
+   "kind": "faq",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "FAQ.56",
+   "anchor": "faq-gsl-owner",
+   "section": "FAQ",
+   "kind": "faq",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "FAQ.57",
+   "anchor": "faq-gsl-stack-array",
+   "section": "FAQ",
+   "kind": "faq",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "FAQ.58",
+   "anchor": "faq-gsl-dyn-array",
+   "section": "FAQ",
+   "kind": "faq",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "FAQ.59",
+   "anchor": "faq-gsl-expects",
+   "section": "FAQ",
+   "kind": "faq",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  },
+  {
+   "id": "FAQ.60",
+   "anchor": "faq-gsl-ensures",
+   "section": "FAQ",
+   "kind": "faq",
+   "severity": "error",
+   "severityReason": "default",
+   "enforcement": "none"
+  }
+ ]
+}

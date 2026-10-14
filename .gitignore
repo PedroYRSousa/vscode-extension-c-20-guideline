@@ -1,0 +1,9 @@
+node_modules/
+dist/
+out/
+*.vsix
+.vscode-test/
+# Local-only files that contain verbatim text from the C++ Core Guidelines
+# (its license allows personal/internal use only; do not publish it).
+data/local/
+docs/local/
