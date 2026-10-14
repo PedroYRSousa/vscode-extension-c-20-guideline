@@ -61,7 +61,7 @@ const constrainCheck: Check = {
         if (constraintMentions(tpl, target, id.text)) continue;
         ctx.report({
           ruleId: 'T.10',
-          alsoCovers: ['I.9'],
+          alsoCovers: ['I.9', 'T.1', 'T.11'],
           node: p,
           message: t('Specify a concept for the template parameter "{0}".', id.text),
           fixes: conceptFixes(ctx, keyword, (c) => c),
@@ -85,7 +85,7 @@ const constrainCheck: Check = {
         if (type?.type !== 'placeholder_type_specifier' || type.text !== 'auto') continue;
         ctx.report({
           ruleId: 'T.10',
-          alsoCovers: ['I.9'],
+          alsoCovers: ['I.9', 'T.1', 'T.11'],
           node: p,
           message: t('A parameter declared with auto is an unconstrained template argument; specify a concept.'),
           fixes: conceptFixes(ctx, type, (c) => `${c} auto`),

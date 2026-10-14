@@ -35,6 +35,16 @@ function newInfo(ctx: Context, node: Node): NewInfo {
   };
 }
 
+/** True when the function that contains `n` returns the variable `name`. */
+function returnedByName(n: Node, name: string): boolean {
+  const fn = ancestor(n, 'function_definition');
+  if (!fn) return false;
+  return fn.descendantsOfType('return_statement').some((r) => {
+    const v = r ? namedKids(r).find((k) => k.type !== 'comment') : undefined;
+    return v?.type === 'identifier' && v.text === name;
+  });
+}
+
 function makeCall(info: NewInfo, kind: 'unique' | 'shared'): string | null {
   const fn = kind === 'unique' ? 'std::make_unique' : 'std::make_shared';
   if (info.array) return info.length ? `${fn}<${info.typeText}[]>(${info.length})` : null;
@@ -133,12 +143,14 @@ const allocationCheck: Check = {
 
       if (inResourceFunction(ctx, n)) continue;
 
-      // new assigned to a raw pointer
+      // new assigned to a raw pointer (an explicit gsl::owner<T*> is acceptable ownership)
       let ownerDecl: Node | null = null;
       let ownerName: string | null = null;
       let rawTarget = false;
       if (parent?.type === 'init_declarator' && field(parent, 'value')?.id === n.id) {
         const decl = parent.parent;
+        const declType = decl ? field(decl, 'type') : null;
+        if (declType && /^gsl::owner\s*</.test(ctx.src(declType).trim())) continue;
         const shape = shapeOf(parent);
         const auto = decl && field(decl, 'type')?.type === 'placeholder_type_specifier';
         if (decl?.type === 'declaration' && (shape.pointer || auto)) {
@@ -173,9 +185,18 @@ const allocationCheck: Check = {
           }
           fixes.push(ctx.fix(t('Own it with std::unique_ptr'), edits, 'unsafe'));
         }
+        if (ctx.config.gslEnabled && ownerDecl?.type === 'declaration' && ownerDecl.childrenForFieldName('declarator').length === 1) {
+          const declType = field(ownerDecl, 'type');
+          const initDecl = ownerDecl.childrenForFieldName('declarator')[0];
+          const nm = shapeOf(initDecl).nameNode;
+          if (declType && nm && declType.type !== 'placeholder_type_specifier') {
+            const stars = ctx.slice(declType.endIndex, nm.startIndex).replace(/\s+/g, '');
+            fixes.push(ctx.fix(t('Mark the pointer as gsl::owner'), [ctx.replaceRange(declType.startIndex, nm.startIndex, `gsl::owner<${ctx.src(declType)}${stars}> `)], 'unsafe'));
+          }
+        }
         ctx.report({
           ruleId: 'R.20',
-          alsoCovers: ['R.3', 'R.11', 'R.12', 'ES.60', 'ES.24', 'C.149', 'I.11'],
+          alsoCovers: ['R.3', 'R.11', 'R.12', 'ES.60', 'ES.24', 'C.149', 'I.11', 'F.42', 'P.8', 'P.3', ...(ownerName && returnedByName(n, ownerName) ? ['F.26'] : [])],
           node: n,
           message: t('Do not assign the result of new to a raw pointer; use std::unique_ptr (std::make_unique) or std::shared_ptr.'),
           fixes,
@@ -185,7 +206,7 @@ const allocationCheck: Check = {
 
       ctx.report({
         ruleId: 'R.11',
-        alsoCovers: ['ES.60'],
+        alsoCovers: ['ES.60', 'P.8', 'P.3', ...(parent?.type === 'return_statement' ? ['F.26'] : [])],
         node: n,
         message: t('Avoid calling new explicitly; use std::make_unique, std::make_shared or a container.'),
       });
@@ -195,7 +216,7 @@ const allocationCheck: Check = {
       if (inResourceFunction(ctx, d)) continue;
       ctx.report({
         ruleId: 'R.11',
-        alsoCovers: ['ES.60', 'R.3'],
+        alsoCovers: ['ES.60', 'R.3', 'F.42', 'P.8'],
         node: d,
         message: t('Avoid calling delete explicitly; let a resource handle (RAII) own the object.'),
       });

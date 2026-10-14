@@ -54,7 +54,7 @@ const pointerCountCheck: Check = {
         }
         ctx.report({
           ruleId: 'F.24',
-          alsoCovers: ['P.6', 'I.13', 'F.22'],
+          alsoCovers: ['P.6', 'I.13', 'F.22', 'P.3'],
           start: p.startIndex,
           end: c.endIndex,
           message: t('Use std::span instead of the (pointer, count) pair ("{0}", "{1}").', pname ?? '?', cname ?? '?'),

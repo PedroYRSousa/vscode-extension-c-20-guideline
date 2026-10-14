@@ -82,7 +82,7 @@ const interfaceTypesCheck: Check = {
       if (/^operator\s*(?:new|delete)/.test(f.name)) continue;
       const isVoidPtr = (typeNode: Node | null, pointer: boolean): boolean => !!typeNode && pointer && normalizeType(ctx.src(typeNode)) === 'void';
       if (isVoidPtr(f.returnType, f.returnsPointer)) {
-        ctx.report({ ruleId: 'I.4', node: f.returnType!, message: t('Make interfaces precisely and strongly typed: avoid returning void*.') });
+        ctx.report({ ruleId: 'I.4', alsoCovers: ['Per.7'], node: f.returnType!, message: t('Make interfaces precisely and strongly typed: avoid returning void*.') });
       }
       let bools = 0;
       for (const p of f.params) {
@@ -90,7 +90,7 @@ const interfaceTypesCheck: Check = {
         const type = field(p, 'type');
         const shape = shapeOf(field(p, 'declarator'));
         if (type && shape.pointer && normalizeType(ctx.src(type)) === 'void') {
-          ctx.report({ ruleId: 'I.4', node: p, message: t('Make interfaces precisely and strongly typed: avoid void* parameters.') });
+          ctx.report({ ruleId: 'I.4', alsoCovers: ['Per.7'], node: p, message: t('Make interfaces precisely and strongly typed: avoid void* parameters.') });
         }
         if (type && !shape.pointer && !shape.reference && !shape.rvalueReference && normalizeType(ctx.src(type)) === 'bool') bools++;
       }

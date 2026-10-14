@@ -197,7 +197,7 @@ const variadicCheck: Check = {
       if (dots) {
         ctx.report({
           ruleId: 'ES.34',
-          alsoCovers: ['F.55'],
+          alsoCovers: ['F.55', 'T.100'],
           node: dots,
           message: t('Do not define a C-style variadic function; use a variadic template or std::initializer_list.'),
         });
@@ -218,7 +218,7 @@ const variadicCheck: Check = {
       if (VA_NAMES.has(id.text)) {
         ctx.report({
           ruleId: 'F.55',
-          alsoCovers: ['ES.34'],
+          alsoCovers: ['ES.34', 'T.100'],
           node: id,
           message: t('Do not use va_list/va_start/va_arg; use a variadic template or std::initializer_list.'),
         });
@@ -307,7 +307,13 @@ const doGotoCheck: Check = {
       ctx.report({ ruleId: 'ES.75', start: d.startIndex, end: d.startIndex + 2, message: t('Avoid do-statements; prefer a for or while loop.') });
     }
     for (const g of ctx.nodesOf('goto_statement')) {
-      ctx.report({ ruleId: 'ES.76', node: g, message: t('Avoid goto; use structured control flow, RAII or a function.') });
+      const label = field(g, 'label')?.text ?? '';
+      ctx.report({
+        ruleId: 'ES.76',
+        alsoCovers: /^(?:exit|cleanup|clean_up|fail|failed|error|err|done|out|end|fin|finish)$/i.test(label) ? ['E.19'] : [],
+        node: g,
+        message: t('Avoid goto; use structured control flow, RAII or a function.'),
+      });
     }
   },
 };

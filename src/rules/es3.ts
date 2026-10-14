@@ -30,7 +30,7 @@ const pointerCheck: Check = {
   name: 'ES.42 simple pointers',
   covers: ['ES.42'],
   run(ctx) {
-    const alsoCovers = ['F.22', 'R.2', 'I.13'];
+    const alsoCovers = ['F.22', 'R.2', 'I.13', 'P.11'];
     const arithmetic = (node: Node, name: string): void =>
       ctx.report({
         ruleId: 'ES.42',
@@ -393,6 +393,7 @@ const rangeForCheck: Check = {
             const edits: TextEdit[] = [header(container, element, readOnly), ...subs.map((s) => ctx.replace(s, element))];
             ctx.report({
               ruleId: 'ES.71',
+              alsoCovers: ['P.3'],
               start: loop.startIndex,
               end: body.startIndex,
               message: t('Prefer a range-for statement: the loop only visits the elements of "{0}".', containerText),
