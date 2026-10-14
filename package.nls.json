@@ -18,7 +18,7 @@
   "config.thresholds.maxFunctionColumns": "F.3: maximum line length inside a function (the guideline suggests 140).",
   "config.thresholds.maxCyclomaticComplexity": "F.3: maximum number of logical paths through a function (the guideline suggests 10).",
   "config.thresholds.digitSeparatorMinDigits": "NL.11: digit sequences with at least this many digits need digit separators (the guideline suggests 7).",
-  "config.thresholds.maxParameters": "I.23: maximum number of function parameters.",
+  "config.thresholds.maxParameters": "F.2: functions with more than this many parameters are reported (the guideline calls 7 or more suspicious, so the default is 6).",
   "config.magicConstants.allowList": "ES.45: literals that are not considered magic constants.",
   "config.clangTidy.enabled": "Also run `clang-tidy` and map its `cppcoreguidelines-*`/`modernize-*` diagnostics (needs `clang-tidy` and a `compile_commands.json`).",
   "config.clangTidy.path": "Path of the `clang-tidy` executable.",

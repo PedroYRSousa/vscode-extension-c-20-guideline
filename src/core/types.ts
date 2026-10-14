@@ -65,7 +65,7 @@ export interface AnalyzerConfig {
     maxCyclomaticComplexity: number;
     /** NL.11: "Flag long digit sequences ... maybe 7". */
     digitSeparatorMinDigits: number;
-    /** I.23 style limit used by the parameter-count check. */
+    /** F.2: "Consider functions with 7 or more parameters suspicious": more than this many is reported. */
     maxParameters: number;
   };
   /** ES.45: literals that are allowed ("0, 1, nullptr, \n, "" and others on a positive list"). */
@@ -85,7 +85,7 @@ export const defaultConfig: AnalyzerConfig = {
     maxFunctionColumns: 140,
     maxCyclomaticComplexity: 10,
     digitSeparatorMinDigits: 7,
-    maxParameters: 5,
+    maxParameters: 6,
   },
   magicConstantAllowList: ['0', '1', '-1', '2', '0.0', '1.0', '0.5', '100', '1000', "'\\n'", "'\\0'", '""', "' '"],
 };

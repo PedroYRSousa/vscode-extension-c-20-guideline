@@ -168,7 +168,7 @@
         },
         "cpp20Guidelines.thresholds.maxParameters": {
           "type": "integer",
-          "default": 5,
+          "default": 6,
           "markdownDescription": "%config.thresholds.maxParameters%",
           "scope": "resource",
           "minimum": 1
