@@ -171,7 +171,8 @@ export class SymbolTable {
     const kind = this.kindOf(decl);
     for (const declarator of declarators) {
       const shape = shapeOf(declarator);
-      if (!shape.nameNode || shape.isFunction) continue;
+      if (!shape.nameNode) continue;
+      if (shape.isFunction && !(kind === 'local' && this.looksLikeConstructorCall(declarator))) continue;
       const init = declarator.type === 'init_declarator' ? field(declarator, 'value') : null;
       const isAuto = typeNode?.type === 'placeholder_type_specifier';
       this.vars.push({
@@ -196,6 +197,19 @@ export class SymbolTable {
         scope: this.scopeFor(decl, kind),
       });
     }
+  }
+
+  /**
+   * `std::lock_guard<std::mutex> g(m);` parses as a function declaration (vexing parse). Inside a function
+   * body that is a variable initialised with constructor arguments when every "parameter" is a bare identifier.
+   */
+  private looksLikeConstructorCall(declarator: Node): boolean {
+    if (declarator.type !== 'function_declarator') return false;
+    const name = field(declarator, 'declarator');
+    const params = field(declarator, 'parameters');
+    if (name?.type !== 'identifier' || !params) return false;
+    const list = namedKids(params);
+    return list.length > 0 && list.every((p) => p.type === 'parameter_declaration' && !field(p, 'declarator') && field(p, 'type')?.type === 'type_identifier');
   }
 
   private kindOf(decl: Node): VarInfo['kind'] {

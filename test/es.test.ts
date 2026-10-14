@@ -169,3 +169,97 @@ describe('severity and options', () => {
     expect(code.slice(f[0].start, f[0].end)).toBe('NULL');
   });
 });
+
+describe('ES.87 redundant comparisons', () => {
+  it('simplifies nullptr comparisons in conditions', async () => {
+    expect(await firstFix('void f(int* p) { if (p != nullptr) {} }', 'ES.87')).toBe('void f(int* p) { if (p) {} }');
+    expect(await firstFix('void f(int* p) { if (p == nullptr) {} }', 'ES.87')).toBe('void f(int* p) { if (!p) {} }');
+    expect(await firstFix('void f(int* p, int* q) { if (p != nullptr && q) {} }', 'ES.87')).toBe('void f(int* p, int* q) { if (p && q) {} }');
+  });
+  it('does not touch integer comparisons or non-conditions', async () => {
+    expect(await only('void f(int n, int* p) { if (n != 0) {} bool b = p != nullptr; }', 'ES.87')).toEqual([]);
+  });
+  it('simplifies bool comparisons', async () => {
+    const f = await only('void f(bool b) { if (b == true) {} }', 'ES.87');
+    expect(f.length).toBe(1);
+    expect(f[0].fixes[0].safety).toBe('safe');
+  });
+});
+
+describe('ES.45 magic constants', () => {
+  it('flags literals embedded in expressions', async () => {
+    expect((await only('int f(int m) { return m <= 12; }', 'ES.45')).length).toBe(1);
+  });
+  it('allows named constants, allow-listed literals and initializers', async () => {
+    expect(await only('constexpr int twelve = 12; int g() { int n = 42; return 0 + 1; }', 'ES.45')).toEqual([]);
+  });
+});
+
+describe('ES.20 / ES.22 initialization', () => {
+  it('flags uninitialized builtins and fixes with {}', async () => {
+    expect(await firstFix('void f() { int x; }', 'ES.20')).toBe('void f() { int x{}; }');
+    expect(await firstFix('void f() { int* p; }', 'ES.20')).toBe('void f() { int* p{}; }');
+  });
+  it('does not flag class types, arrays, statics or initialized variables', async () => {
+    expect(await only('void f() { std::string s; static int c; int a[4]; int ok = 1; int b{}; }', 'ES.20')).toEqual([]);
+  });
+  it('merges declaration and assignment (ES.22)', async () => {
+    const code = 'int g(); void f() {\n    int x;\n    x = g();\n}\n';
+    const f = await only(code, 'ES.22');
+    expect(f.length).toBe(1);
+    expect(await firstFix(code, 'ES.22')).toBe('int g(); void f() {\n    int x = g();\n}\n');
+    expect((await only(code, 'ES.20')).length).toBe(1); // reported once, as ES.22 covering ES.20
+  });
+});
+
+describe('ES.23 narrowing literals', () => {
+  it('flags literals that narrow', async () => {
+    expect((await only('void f() { int a = 3.5; char c = 300; unsigned u = -1; short s = 70000; }', 'ES.23')).length).toBe(4);
+    expect(await only('void f() { int a = 3; double d = 3; char c = 65; float x = 1.5f; }', 'ES.23')).toEqual([]);
+  });
+});
+
+describe('ES.41 precedence', () => {
+  it('parenthesizes mixed bitwise expressions', async () => {
+    expect(await firstFix('bool f(int a, int b) { return a & b == 0; }', 'ES.41')).toBe('bool f(int a, int b) { return a & (b == 0); }');
+    expect(await only('int f(int a, int b, int c) { return a & b & c; }', 'ES.41')).toEqual([]);
+  });
+  it('flags non-leftmost assignments', async () => {
+    expect((await only('void f(int a, int b, int c) { a = b = c; }', 'ES.41')).length).toBe(1);
+    expect((await only('void f(int c) { int x; while ((x = c) != 0) {} }', 'ES.41')).length).toBe(1);
+    expect(await only('void f(int a, int b) { a = b; }', 'ES.41')).toEqual([]);
+  });
+});
+
+describe('ES.12 shadowing', () => {
+  it('flags nested reuse, globals and members', async () => {
+    expect((await only('void f(int x) { { int x = 1; } }', 'ES.12')).length).toBe(1);
+    expect((await only('int g; void f() { int g = 1; }', 'ES.12')).length).toBe(1);
+    expect((await only('struct S { int m; void f() { int m = 1; } };', 'ES.12')).length).toBe(1);
+  });
+  it('accepts distinct names and sibling scopes', async () => {
+    expect(await only('void f() { { int x = 1; } { int x = 2; } }', 'ES.12')).toEqual([]);
+  });
+});
+
+describe('ES.27 stack arrays', () => {
+  it('flags variable bounds', async () => {
+    expect((await only('void f(int n) { int a[n]; }', 'ES.27')).length).toBe(1);
+    expect(await only('void f() { int a[4]; const int n = 3; int b[n]; }', 'ES.27')).toEqual([]);
+  });
+});
+
+describe('NL.9 ALL_CAPS names', () => {
+  it('flags ALL_CAPS non-macros and enumerators', async () => {
+    expect((await only('const int SIZE = 10;', 'NL.9')).length).toBe(1);
+    expect((await only('enum bad { BAD, WORSE };', 'Enum.5')).length).toBe(2);
+    expect(await only('#define SIZE 10\nint x = SIZE;', 'NL.9')).toEqual([]);
+    expect(await only('template <typename T, int N> struct A {};', 'NL.9')).toEqual([]);
+  });
+});
+
+describe('NL.19 misread names', () => {
+  it('flags names made of confusing characters', async () => {
+    expect((await only('int oO01lL = 6;', 'NL.19')).length).toBe(1);
+  });
+});
