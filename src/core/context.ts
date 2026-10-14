@@ -192,11 +192,11 @@ export class Context {
       const lineEnd = this.lineEnd(this.lineOf(anchor.endIndex - 1));
       return [this.insertAt(lineEnd, `${eol}#include <${header}>`)];
     }
-    return [this.insertAt(this.firstCodeOffset(), `#include <${header}>${eol}`)];
+    return [this.insertAt(this.preambleEnd(), `#include <${header}>${eol}`)];
   }
 
   /** Offset after a leading comment block / include guard, where a new `#include` can go. */
-  private firstCodeOffset(): number {
+  preambleEnd(): number {
     let offset = 0;
     for (const child of this.root.children) {
       if (!child) continue;

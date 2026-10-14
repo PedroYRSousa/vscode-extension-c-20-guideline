@@ -7,6 +7,8 @@ import { es3Checks } from './es3.js';
 import { fChecks } from './f.js';
 import { f2Checks } from './f2.js';
 import { m1Checks } from './m1.js';
+import { m2Checks } from './m2.js';
+import { m3Checks } from './m3.js';
 import { rChecks } from './r.js';
 
 export const allChecks: Check[] = [
@@ -19,4 +21,6 @@ export const allChecks: Check[] = [
   ...cChecks,
   ...c2Checks,
   ...m1Checks,
+  ...m2Checks,
+  ...m3Checks,
 ];
