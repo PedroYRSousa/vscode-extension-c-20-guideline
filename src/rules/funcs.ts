@@ -58,8 +58,11 @@ export function functionsOf(ctx: Context): FuncInfo[] {
     if (!shape.nameNode) continue;
     const nameNode = shape.nameNode;
     const full = ctx.src(nameNode);
-    const parts = stripTemplateArgs(full).split('::');
-    const name = parts[parts.length - 1].trim();
+    // `A<T>::operator<` must not lose its `<`: split the qualifier from the operator name first
+    const op = /(?:^|::)\s*(operator\b[\s\S]*)$/.exec(full);
+    const qualifier = op ? full.slice(0, op.index) : full;
+    const parts = op ? [...stripTemplateArgs(qualifier).split('::').filter(Boolean), 'operator'] : stripTemplateArgs(full).split('::');
+    const name = op ? op[1].trim().replace(/^operator\s+(?=[^\w\s])/, 'operator') : parts[parts.length - 1].trim();
     const cls = ancestor(node, 'class_specifier', 'struct_specifier', 'union_specifier');
     let className: string | null = cls ? (field(cls, 'name') ? stripTemplateArgs(field(cls, 'name')!.text) : null) : null;
     if (!className && parts.length > 1) className = parts[parts.length - 2].trim();

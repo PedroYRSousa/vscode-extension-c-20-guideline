@@ -1,5 +1,6 @@
 import type { Check } from '../core/types.js';
 import { c2Checks } from './c2.js';
+import { cpp20Checks } from './cpp20.js';
 import { cChecks } from './c.js';
 import { esChecks } from './es.js';
 import { es2Checks } from './es2.js';
@@ -27,4 +28,5 @@ export const allChecks: Check[] = [
   ...m3Checks,
   ...nlLayoutChecks,
   ...nlNamingChecks,
+  ...cpp20Checks,
 ];
