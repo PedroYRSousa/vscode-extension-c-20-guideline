@@ -1,0 +1,81 @@
+# clang-format configuration that matches the layout rules enforced by the
+# "C++20 Core Guidelines" extension (NL.4, NL.11, NL.15, NL.17, NL.18, NL.20, NL.26).
+#
+# Requires clang-format 17 or newer (verified with 18.1.3).
+---
+Language: Cpp
+Standard: c++20
+BasedOnStyle: LLVM
+
+# NL.4  consistent indentation: four spaces, never tabs
+IndentWidth: 4
+TabWidth: 4
+UseTab: Never
+ContinuationIndentWidth: 4
+ConstructorInitializerIndentWidth: 4
+AccessModifierOffset: -4
+IndentAccessModifiers: false
+IndentCaseBlocks: false
+IndentGotoLabels: true
+IndentPPDirectives: None
+IndentWrappedFunctionNames: false
+NamespaceIndentation: None
+
+# NL.17  K&R-derived ("Stroustrup") layout: the brace of a function goes on a line of its own,
+# every other brace stays on the line of its head, case labels are aligned with the switch
+BreakBeforeBraces: Stroustrup
+IndentCaseLabels: false
+AllowShortFunctionsOnASingleLine: None
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLoopsOnASingleLine: false
+AllowShortBlocksOnASingleLine: Never
+AllowShortCaseLabelsOnASingleLine: false
+
+# NL.15  use spaces sparingly: a space after if/for/while/switch/catch only, nothing inside
+# parentheses, brackets and angle brackets, no alignment padding
+SpaceBeforeParens: Custom
+SpaceBeforeParensOptions:
+  AfterControlStatements: true
+  AfterForeachMacros: false
+  AfterIfMacros: false
+  AfterFunctionDeclarationName: false
+  AfterFunctionDefinitionName: false
+  AfterOverloadedOperator: false
+  AfterPlacementOperator: true
+  AfterRequiresInClause: false
+  AfterRequiresInExpression: false
+  BeforeNonEmptyParentheses: false
+SpacesInParens: Never
+SpacesInSquareBrackets: false
+SpacesInAngles: Never
+SpaceBeforeSquareBrackets: false
+SpaceAfterTemplateKeyword: false
+AlwaysBreakTemplateDeclarations: Yes
+AlignConsecutiveAssignments: None
+AlignConsecutiveBitFields: None
+AlignConsecutiveDeclarations: None
+AlignConsecutiveMacros: None
+AlignTrailingComments: false
+
+# NL.18  C++-style declarator layout: T* p, T& r
+PointerAlignment: Left
+ReferenceAlignment: Pointer
+DerivePointerAlignment: false
+
+# NL.26  conventional const notation: const T, not T const
+QualifierAlignment: Left
+
+# NL.11  readable literals (the extension setting digitSeparatorMinDigits defaults to 7)
+IntegerLiteralSeparator:
+  Binary: 4
+  BinaryMinDigits: 7
+  Decimal: 3
+  DecimalMinDigits: 7
+  Hex: 4
+  HexMinDigits: 7
+
+# the suppression comments of the extension must never be re-wrapped
+CommentPragmas: '^ *cpp20-guideline:'
+
+ColumnLimit: 100
+SortIncludes: Never

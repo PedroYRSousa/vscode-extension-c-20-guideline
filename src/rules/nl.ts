@@ -74,9 +74,16 @@ const indentationCheck: Check = {
     const blocks = ctx.nodesOf('compound_statement');
     const deltas = new Map<number, number>();
     const measured: Array<{ block: Node; ownerIndent: number }> = [];
+    // A block is indented relative to the line that starts the construct it belongs to: the line of its
+    // brace when the brace opens a line, otherwise the line of the `if`/`for`/lambda/... (the brace may sit
+    // on a continuation line of a wrapped condition or parameter list).
+    const ownerLine = (b: Node): number => {
+      if (ctx.startsLine(b.startIndex) || !b.parent) return ctx.lineOf(b.startIndex);
+      return ctx.lineOf(b.parent.startIndex);
+    };
     for (const b of blocks) {
       const open = b.startIndex;
-      const ownerIndent = widthOf(leadingWhitespace(ctx, ctx.lineOf(open)));
+      const ownerIndent = widthOf(leadingWhitespace(ctx, ownerLine(b)));
       const children = namedKids(b).filter((c) => c.type !== 'comment');
       const own = children.filter((c) => ctx.startsLine(c.startIndex) && ctx.lineOf(c.startIndex) > ctx.lineOf(open));
       if (own.length === 0) continue;
@@ -92,7 +99,7 @@ const indentationCheck: Check = {
       const open = block.startIndex;
       const expected = ownerIndent + unitWidth;
       for (const c of namedKids(block)) {
-        if (c.type === 'comment' || c.type === 'case_statement' || !ctx.startsLine(c.startIndex) || ctx.lineOf(c.startIndex) <= ctx.lineOf(open)) continue;
+        if (c.type === 'comment' || c.type === 'case_statement' || c.type.startsWith('preproc_') || !ctx.startsLine(c.startIndex) || ctx.lineOf(c.startIndex) <= ctx.lineOf(open)) continue;
         const actual = widthOf(ctx.indentAt(c.startIndex));
         if (actual === expected) continue;
         const line = ctx.lineOf(c.startIndex);
@@ -137,6 +144,18 @@ const spacesCheck: Check = {
   covers: ['NL.15'],
   run(ctx) {
     const tokens = ctx.tokens;
+    // start columns of the tokens of every line, to recognise padding that aligns a column with its neighbours
+    const columns = new Map<number, Set<number>>();
+    for (const tok of tokens) {
+      const line = ctx.lineOf(tok.startIndex);
+      const set = columns.get(line) ?? columns.set(line, new Set()).get(line)!;
+      set.add(ctx.column(tok.startIndex));
+    }
+    const aligned = (tok: Node): boolean => {
+      const line = ctx.lineOf(tok.startIndex);
+      const col = ctx.column(tok.startIndex);
+      return !!columns.get(line - 1)?.has(col) || !!columns.get(line + 1)?.has(col);
+    };
     const report = (start: number, end: number, replacement: string, message: string): void => {
       ctx.report({
         ruleId: 'NL.15',
@@ -178,7 +197,9 @@ const spacesCheck: Check = {
       } else if (nt === '(' && ['identifier', 'field_identifier', 'type_identifier'].includes(prev.type) && !CONTROL_KEYWORDS.has(pt) && next.parent && ['argument_list', 'parameter_list'].includes(next.parent.type)) {
         report(start, end, '', t('Use spaces sparingly: no space between a function name and "(".'));
       } else if (gap.length >= 2 || gap.includes('\t')) {
-        // alignment spaces before a trailing comment are tolerated (handled above); everything else is "too much space"
+        // alignment spaces before a trailing comment are tolerated (handled above), and so is padding that lines a
+        // column up with the line above or below (tables, chains of ?:); everything else is "too much space"
+        if (!gap.includes('\t') && aligned(next)) continue;
         report(start, end, ' ', t('Use spaces sparingly: use a single space.'));
       }
     }
@@ -231,6 +252,9 @@ const knrCheck: Check = {
       return [ctx.fix(title, [ctx.insertAt(tokenEnd, ' {'), ctx.replaceRange(gap.start, open.startIndex + 1, '')])];
     };
 
+    // the first member of a class body, ignoring comments (`struct A { // note`)
+    const firstMember = (open: Node): Node | undefined => namedKids(open).find((c) => c.type !== 'comment');
+
     // functions: the opening brace is on a line of its own
     for (const f of functionsOf(ctx)) {
       if (f.node.type !== 'function_definition' || !f.body) continue;
@@ -256,7 +280,7 @@ const knrCheck: Check = {
       const open = c.body;
       if (ctx.startsLine(open.startIndex)) {
         report({ start: open.startIndex, end: open.startIndex + 1 }, t('The opening brace of a class or struct goes on the same line as its head (K&R layout).'), moveUp(open));
-      } else if (namedKids(open).length > 0 && ctx.lineOf(open.startIndex) === ctx.lineOf(namedKids(open)[0].startIndex)) {
+      } else if (firstMember(open) && ctx.lineOf(open.startIndex) === ctx.lineOf(firstMember(open)!.startIndex)) {
         const expansion = blockExpansion(ctx, open, lineIndent(c.node.startIndex));
         report({ start: open.startIndex, end: open.startIndex + 1 }, t('Use separate lines for each member.'), expansion !== null ? [ctx.fix(t('Put the members on separate lines'), [ctx.replace(open, expansion)])] : []);
       }
@@ -272,18 +296,22 @@ const knrCheck: Check = {
       }
     }
 
+    // `if (x) [[likely]] { ... }`: the body is the statement the attribute appertains to
+    const unattributed = (n: Node): Node => (n.type === 'attributed_statement' ? namedKids(n).filter((c) => c.type !== 'attribute_declaration' && c.type !== 'comment').pop() ?? n : n);
     const bodies: Array<{ owner: Node; body: Node; headEnd: number }> = [];
     for (const s of ctx.nodesOf('if_statement', 'for_statement', 'while_statement', 'for_range_loop', 'switch_statement')) {
-      const body = field(s, 'body') ?? field(s, 'consequence');
+      const raw = field(s, 'body') ?? field(s, 'consequence');
+      const body = raw ? unattributed(raw) : null;
       if (body) bodies.push({ owner: s, body, headEnd: (field(s, 'condition') ?? kids(s).find((k) => k.type === ')') ?? s).endIndex });
       const alt = field(s, 'alternative');
-      const altBody = alt ? namedKids(alt).find((n) => n.type !== 'comment') : undefined;
+      const altRaw = alt ? namedKids(alt).find((n) => n.type !== 'comment') : undefined;
+      const altBody = altRaw ? unattributed(altRaw) : undefined;
       if (altBody) bodies.push({ owner: alt!, body: altBody, headEnd: kids(alt!)[0].endIndex });
     }
     for (const kind of ['do_statement', 'try_statement', 'catch_clause']) {
       for (const s of ctx.nodesOf(kind)) {
-        const body = field(s, 'body');
-        if (body) bodies.push({ owner: s, body, headEnd: kids(s)[0].endIndex });
+        const raw = field(s, 'body');
+        if (raw) bodies.push({ owner: s, body: unattributed(raw), headEnd: kids(s)[0].endIndex });
       }
     }
     for (const { owner, body, headEnd } of bodies) {
@@ -291,7 +319,7 @@ const knrCheck: Check = {
         if (ctx.startsLine(body.startIndex) && ctx.lineOf(body.startIndex) > ctx.lineOf(headEnd)) {
           report({ start: body.startIndex, end: body.startIndex + 1 }, t('The opening brace goes on the same line as the statement it belongs to (K&R layout).'), moveUp(body));
         } else {
-          const first = namedKids(body)[0];
+          const first = namedKids(body).find((c) => c.type !== 'comment');
           if (first && ctx.lineOf(first.startIndex) === ctx.lineOf(body.startIndex) && ctx.lineOf(body.startIndex) === ctx.lineOf(headEnd)) {
             const expansion = blockExpansion(ctx, body, lineIndent(owner.startIndex));
             report({ start: body.startIndex, end: body.startIndex + 1 }, t('Use separate lines for the branches of an if and the body of a loop.'), expansion !== null ? [ctx.fix(t('Put the body on separate lines'), [ctx.replace(body, expansion)])] : []);
@@ -370,7 +398,7 @@ const oneStatementCheck: Check = {
   run(ctx) {
     const containers = ['compound_statement', 'field_declaration_list', 'declaration_list', 'translation_unit', 'case_statement'];
     for (const c of ctx.nodesOf(...containers)) {
-      const items = namedKids(c).filter((n) => !['comment', 'access_specifier', 'case_statement'].includes(n.type) && !n.type.startsWith('preproc_') && n.id !== (c.type === 'case_statement' ? field(c, 'value')?.id : -1));
+      const items = namedKids(c).filter((n) => !['comment', 'access_specifier', 'case_statement', 'ERROR'].includes(n.type) && n.text !== ';' && !n.type.startsWith('preproc_') && n.id !== (c.type === 'case_statement' ? field(c, 'value')?.id : -1));
       for (let i = 1; i < items.length; i++) {
         const prev = items[i - 1];
         const cur = items[i];
@@ -453,7 +481,7 @@ const literalCheck: Check = {
       const [, sign, prefix, digits, suffix] = m;
       if (text.includes("'")) continue;
       const decimal = !prefix;
-      if (decimal && !/^\d+$/.test(digits)) continue;
+      if (decimal && (!/^\d+$/.test(digits) || /^0\d/.test(digits))) continue; // not decimal, or octal (nobody groups those)
       if (digits.length < min) continue;
       const group = decimal ? 3 : prefix!.toLowerCase() === '0b' ? 4 : 4;
       ctx.report({
