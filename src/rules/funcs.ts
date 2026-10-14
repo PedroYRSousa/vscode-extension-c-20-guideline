@@ -91,7 +91,7 @@ export function functionsOf(ctx: Context): FuncInfo[] {
       isDestructor,
       isConstructor: !isDestructor && !!className && name === className,
       isOperator: name.startsWith('operator'),
-      isVirtualSpecified: kids(node).some((k) => k.type === 'virtual_function_specifier' || (k.type === 'storage_class_specifier' && k.text === 'virtual')),
+      isVirtualSpecified: kids(node).some((k) => k.type === 'virtual' || k.type === 'virtual_function_specifier'),
       isTemplate: ancestor(node, 'template_declaration') !== null,
       isStatic: kids(node).some((k) => k.type === 'storage_class_specifier' && k.text === 'static'),
     });
