@@ -24,8 +24,10 @@ diagnóstico traz uma correção rápida (*Quick Fix*) sempre que existe uma cor
 * Mensagens em **inglês e português** (segue o idioma do editor).
 
 A formatação também é verificada pelas regras de nomes e layout das próprias diretrizes (NL.*: chavetas K&R/Stroustrup,
-declaradores `T* p`, uma instrução por linha, espaços, indentação, estilo de nomes). A extensão **não** depende de
-nenhum ficheiro `.clang-format`.
+declaradores `T* p`, uma instrução por linha, espaços, indentação, estilo de nomes). A extensão não precisa de um
+`.clang-format` para funcionar, mas o repositório inclui um que produz exatamente este layout: copie o
+[`.clang-format`](.clang-format) para o seu projeto (clang-format 17+) e veja [docs/FORMATTING.md](docs/FORMATTING.md)
+para saber o que cada opção faz e os poucos casos que um formatador não consegue resolver.
 
 ## Instalação
 
@@ -63,8 +65,9 @@ int* p = NULL;  // cpp20-guideline: ignore ES.47 -- a API em C exige um NULL lit
 void on_event(int unused, int* p = NULL);
 ```
 
-Um comentário no fim da linha aplica-se à própria linha; um comentário sozinho aplica-se à linha seguinte. Sem
-justificação, ou com uma regra desconhecida, nada é suprimido e o próprio comentário é um erro (`CPP20.suppress`).
+Um comentário no fim da linha aplica-se à própria linha (e à instrução que termina, se um formatador a quebrou em
+várias linhas); um comentário sozinho aplica-se à linha seguinte (e ao resto do cabeçalho da declaração que aí começa).
+Sem justificação, ou com uma regra desconhecida, nada é suprimido e o próprio comentário é um erro (`CPP20.suppress`).
 A correção rápida *Suprimir* pede a justificação e escreve o comentário.
 
 ## Limitações assumidas

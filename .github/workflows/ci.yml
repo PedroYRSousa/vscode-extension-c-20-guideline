@@ -12,6 +12,8 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      # the .clang-format compatibility tests run clang-format (they are skipped when it is missing)
+      - run: sudo apt-get update && sudo apt-get install -y clang-format-18
       - run: npm run typecheck
       - run: npm test
       - run: npm run build

@@ -77,5 +77,15 @@ IntegerLiteralSeparator:
 # the suppression comments of the extension must never be re-wrapped
 CommentPragmas: '^ *cpp20-guideline:'
 
+# F.3 flags lines wider than cpp20Guidelines.thresholds.maxFunctionColumns (140): keep ColumnLimit below it
 ColumnLimit: 100
+
+# reordering #include lines can change the meaning of a program, so it is left to you
 SortIncludes: Never
+
+# Function-like macros that you use as statements or declarations WITHOUT a trailing ';' and that are not
+# ALL_CAPS get joined with the next line by clang-format (NL.20). List them here; keep the defaults:
+# StatementMacros:
+#   - Q_UNUSED
+#   - QT_REQUIRE_VERSION
+#   - my_macro_without_semicolon

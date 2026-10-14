@@ -32,7 +32,11 @@ const indentationCheck: Check = {
     // (1) tabs and spaces must not be mixed as indentation
     let tabLines = 0;
     let spaceLines = 0;
+    // the text of a multi-line string literal is not indentation
+    const literals = ctx.nodesOf('raw_string_literal', 'string_literal').filter((n) => n.endIndex > n.startIndex && ctx.lineOf(n.startIndex) !== ctx.lineOf(n.endIndex - 1));
+    const insideLiteral = (l: number): boolean => literals.some((n) => ctx.lineStart(l) > n.startIndex && ctx.lineStart(l) < n.endIndex);
     for (let l = 0; l < ctx.lineCount; l++) {
+      if (insideLiteral(l)) continue;
       const text = ctx.lineText(l);
       if (/^\t/.test(text)) tabLines++;
       else if (/^ {2,}\S/.test(text)) spaceLines++;
@@ -43,12 +47,11 @@ const indentationCheck: Check = {
       const unit = ctx.indentUnit === '\t' ? 4 : ctx.indentUnit.length;
       const edits: TextEdit[] = [];
       let first = -1;
-      const strings = ctx.nodesOf('raw_string_literal', 'string_literal').filter((n) => n.endIndex > n.startIndex && ctx.lineOf(n.startIndex) !== ctx.lineOf(n.endIndex - 1));
       for (let l = 0; l < ctx.lineCount; l++) {
         const text = ctx.lineText(l);
         const ws = /^[ \t]*/.exec(text)![0];
         if (ws.length === text.length) continue;
-        if (strings.some((n) => ctx.lineStart(l) > n.startIndex && ctx.lineStart(l) < n.endIndex)) continue; // inside a literal
+        if (insideLiteral(l)) continue;
         const bad = useTabs ? /^ {2,}/.test(ws) && !ws.includes('\t') : ws.includes('\t');
         if (!bad) continue;
         if (first < 0) first = l;
@@ -73,33 +76,52 @@ const indentationCheck: Check = {
     // (2) block contents are indented consistently
     const blocks = ctx.nodesOf('compound_statement');
     const deltas = new Map<number, number>();
-    const measured: Array<{ block: Node; ownerIndent: number }> = [];
+    const measured: Array<{ block: Node; ownerIndent: number; anchored: boolean }> = [];
     // A block is indented relative to the line that starts the construct it belongs to: the line of its
     // brace when the brace opens a line, otherwise the line of the `if`/`for`/lambda/... (the brace may sit
     // on a continuation line of a wrapped condition or parameter list).
     const ownerLine = (b: Node): number => {
       if (ctx.startsLine(b.startIndex) || !b.parent) return ctx.lineOf(b.startIndex);
-      return ctx.lineOf(b.parent.startIndex);
+      // `if (a &&\n    b) [[unlikely]] {`: the attribute may start a continuation line, the block belongs to the statement it follows
+      let owner = b.parent;
+      while (owner.type === 'attributed_statement' && owner.parent) owner = owner.parent;
+      return ctx.lineOf(owner.startIndex);
+    };
+    // The body of a lambda is indented relative to its closing brace: where clang-format anchors a lambda inside a wrapped
+    // condition, argument list or initializer list (`if (f(a, [](int x) {` puts the body two levels in) is its decision.
+    const lambdaBase = (b: Node): number | null => {
+      if (b.parent?.type !== 'lambda_expression') return null;
+      const close = b.endIndex - 1;
+      return ctx.startsLine(close) && ctx.lineOf(close) > ctx.lineOf(b.startIndex) ? widthOf(ctx.indentAt(close)) : null;
+    };
+    // The member whose indentation is checked. `label:` is flushed out of the code column (one unit left in clang-format
+    // and GNU, column 0 in K&R and the Linux kernel), so the statement it labels is checked instead; `case` labels are
+    // aligned with their switch (NL.17) and directives start in column 0.
+    const checked = (c: Node): Node | null => {
+      if (c.type === 'comment' || c.type === 'case_statement' || c.type.startsWith('preproc_')) return null;
+      if (c.type === 'labeled_statement') return namedKids(c).find((k) => k.type !== 'statement_identifier' && k.type !== 'comment') ?? null;
+      return c;
     };
     for (const b of blocks) {
       const open = b.startIndex;
-      const ownerIndent = widthOf(leadingWhitespace(ctx, ownerLine(b)));
-      const children = namedKids(b).filter((c) => c.type !== 'comment');
-      const own = children.filter((c) => ctx.startsLine(c.startIndex) && ctx.lineOf(c.startIndex) > ctx.lineOf(open));
+      const anchored = lambdaBase(b);
+      const ownerIndent = anchored ?? widthOf(leadingWhitespace(ctx, ownerLine(b)));
+      const own = namedKids(b).map(checked).filter((c): c is Node => !!c && ctx.startsLine(c.startIndex) && ctx.lineOf(c.startIndex) > ctx.lineOf(open));
       if (own.length === 0) continue;
       const delta = widthOf(ctx.indentAt(own[0].startIndex)) - ownerIndent;
-      measured.push({ block: b, ownerIndent });
+      measured.push({ block: b, ownerIndent, anchored: anchored !== null });
       if (delta > 0) deltas.set(delta, (deltas.get(delta) ?? 0) + 1);
     }
     if (deltas.size === 0) return;
     const unitWidth = [...deltas.entries()].sort((a, b) => b[1] - a[1] || a[0] - b[0])[0][0];
     const fill = (width: number): string => (tabLines > spaceLines ? '\t'.repeat(Math.floor(width / 4)) + ' '.repeat(width % 4) : ' '.repeat(width));
 
-    for (const { block, ownerIndent } of measured) {
+    for (const { block, ownerIndent, anchored } of measured) {
       const open = block.startIndex;
       const expected = ownerIndent + unitWidth;
-      for (const c of namedKids(block)) {
-        if (c.type === 'comment' || c.type === 'case_statement' || c.type.startsWith('preproc_') || !ctx.startsLine(c.startIndex) || ctx.lineOf(c.startIndex) <= ctx.lineOf(open)) continue;
+      for (const member of namedKids(block)) {
+        const c = checked(member);
+        if (!c || !ctx.startsLine(c.startIndex) || ctx.lineOf(c.startIndex) <= ctx.lineOf(open)) continue;
         const actual = widthOf(ctx.indentAt(c.startIndex));
         if (actual === expected) continue;
         const line = ctx.lineOf(c.startIndex);
@@ -120,7 +142,7 @@ const indentationCheck: Check = {
       }
       // closing brace aligned with the line that opens the block
       const close = block.endIndex - 1;
-      if (ctx.startsLine(close) && ctx.lineOf(close) > ctx.lineOf(open) && widthOf(ctx.indentAt(close)) !== ownerIndent) {
+      if (!anchored && ctx.startsLine(close) && ctx.lineOf(close) > ctx.lineOf(open) && widthOf(ctx.indentAt(close)) !== ownerIndent) {
         const line = ctx.lineOf(close);
         ctx.report({
           ruleId: 'NL.4',
@@ -363,8 +385,24 @@ const declaratorCheck: Check = {
   covers: ['NL.18'],
   run(ctx) {
     const TYPES = ['pointer_declarator', 'reference_declarator', 'abstract_pointer_declarator', 'abstract_reference_declarator'];
+    // `std::vector<int> v(n * m);` in a function body is a variable with a direct initialiser, but the grammar reads it as a
+    // block-scope function declaration with the parameter `n * m` (which is also how clang-format reads it)
+    const directInit = (d: Node): boolean => {
+      const param = d.parent;
+      if (param?.type !== 'parameter_declaration' || kids(param).some((k) => k.type === 'type_qualifier')) return false;
+      if (field(param, 'type')?.type !== 'type_identifier') return false;
+      const fn = param.parent?.parent;
+      if (param.parent?.type !== 'parameter_list' || fn?.type !== 'function_declarator' || fn.parent?.type !== 'declaration') return false;
+      return ['compound_statement', 'init_statement', 'for_statement', 'case_statement'].includes(fn.parent.parent?.type ?? '');
+    };
+    // `int *a, *b;`: clang-format keeps this spelling (so that `int* a, b;` is not misread) and ES.10 reports the declaration
+    const multi = (d: Node): boolean => {
+      const decl = d.parent?.type === 'init_declarator' ? d.parent.parent : d.parent;
+      return !!decl && ['declaration', 'field_declaration', 'type_definition'].includes(decl.type) && decl.childrenForFieldName('declarator').length > 1;
+    };
     for (const d of ctx.nodesOf(...TYPES)) {
       if (d.parent && TYPES.includes(d.parent.type)) continue; // only the outermost of a `**` run
+      if (directInit(d) || multi(d)) continue;
       let s = d.startIndex;
       let before = s;
       while (before > 0 && /[ \t]/.test(ctx.text[before - 1])) before--;
@@ -403,6 +441,11 @@ const oneStatementCheck: Check = {
         const prev = items[i - 1];
         const cur = items[i];
         if (ctx.lineOf(prev.endIndex - 1) !== ctx.lineOf(cur.startIndex)) continue;
+        // `case 1: { ... } break;`: the closing brace of a case block and its `break` are one unit (every formatter keeps them together)
+        if (c.type === 'case_statement' && prev.type === 'compound_statement' && cur.type === 'break_statement') continue;
+        // `ATTRIBUTE_MACRO` alone on a line in front of a function: the grammar reads `ATTRIBUTE_MACRO Type` as a declaration with a
+        // missing `;` and the function that follows as a second statement
+        if (prev.lastChild?.isMissing) continue;
         const indent = ctx.indentAt(prev.startIndex);
         ctx.report({
           ruleId: 'NL.20',
@@ -445,6 +488,7 @@ const eastConstCheck: Check = {
     for (const d of ctx.nodesOf('declaration', 'parameter_declaration', 'optional_parameter_declaration', 'field_declaration')) {
       const type = field(d, 'type');
       if (!type) continue;
+      if (kids(d).some((k) => k.type === 'ERROR')) continue; // `EXPORT_API const T* f();`: the grammar takes the macro for the type
       const east = kids(d).filter((k) => k.type === 'type_qualifier' && k.text === 'const' && k.startIndex >= type.endIndex);
       for (const q of east) {
         let start = q.startIndex;

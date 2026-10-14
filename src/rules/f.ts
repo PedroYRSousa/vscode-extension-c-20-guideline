@@ -335,14 +335,19 @@ const returnTypeCheck: Check = {
 
       // F.49: don't return const T
       if (!f.returnsPointer && !f.returnsReference && !f.returnsRvalueReference) {
-        const constNode = kids(f.node).find((k) => k.type === 'type_qualifier' && k.text === 'const' && k.endIndex <= rt.startIndex);
+        const outer = field(f.node, 'declarator');
+        // `const T f()` and `T const f()`
+        const constNode = kids(f.node).find((k) => k.type === 'type_qualifier' && k.text === 'const' && (k.endIndex <= rt.startIndex || (k.startIndex >= rt.endIndex && (!outer || k.endIndex <= outer.startIndex))));
         if (constNode && normalizeType(rtText) !== 'void') {
-          const next = ctx.slice(constNode.endIndex, rt.startIndex);
+          let from = constNode.startIndex;
+          let to = constNode.endIndex;
+          if (constNode.endIndex <= rt.startIndex) to = rt.startIndex;
+          else while (from > rt.endIndex && /[ \t]/.test(ctx.text[from - 1])) from--;
           ctx.report({
             ruleId: 'F.49',
             node: constNode,
             message: t("Don't return const T by value; it inhibits moves."),
-            fixes: [ctx.fix(t('Remove const'), [ctx.replaceRange(constNode.startIndex, constNode.endIndex + next.length, '')])],
+            fixes: [ctx.fix(t('Remove const'), [ctx.replaceRange(from, to, '')])],
           });
         }
       }

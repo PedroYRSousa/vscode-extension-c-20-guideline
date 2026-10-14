@@ -26,7 +26,9 @@ diagnostic comes with a Quick Fix whenever a mechanical fix exists.
 
 Formatting is checked too: the Core Guidelines' own naming and layout rules (NL.*: K&R/Stroustrup braces,
 `T* p` declarators, one statement per line, spaces, indentation, naming style) are part of the rule set. The
-extension does **not** rely on a `.clang-format` file.
+extension does not need a `.clang-format` to work, but the repository ships one that produces exactly this layout:
+copy [`.clang-format`](.clang-format) to your project (clang-format 17+), see [docs/FORMATTING.md](docs/FORMATTING.md)
+for what each option is for and for the few cases a formatter cannot fix.
 
 ## Install
 
@@ -64,7 +66,8 @@ int* p = NULL;  // cpp20-guideline: ignore ES.47 -- the C API requires a literal
 void on_event(int unused, int* p = NULL);
 ```
 
-A trailing comment applies to its own line, a comment on its own line applies to the next line. Without a
+A trailing comment applies to its own line (and to the statement it ends, if a formatter wrapped it), a comment on
+its own line applies to the next line (and to the rest of the head of the declaration that starts there). Without a
 justification, or with an unknown rule, nothing is suppressed and the comment is itself an error (`CPP20.suppress`).
 The *Suppress* Quick Fix asks for the justification and writes the comment for you.
 
