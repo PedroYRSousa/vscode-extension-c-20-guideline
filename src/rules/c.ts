@@ -288,7 +288,8 @@ const constructorCheck: Check = {
       const copyDeleted = [...sm.copyCtor, ...sm.copyAssign].some((m) => m.info.isDeleted);
       const refOrConst = dataFields(c).some((f) => f.isConst || f.isReference);
       const userCtors = [...sm.otherCtors, ...sm.defaultCtor];
-      if (userCtors.length > 0 && sm.defaultCtor.length === 0 && !copyDeleted && !refOrConst) {
+      // with base classes, copyability depends on them: stay silent unless the class itself is clearly copyable
+      if (userCtors.length > 0 && sm.defaultCtor.length === 0 && !copyDeleted && !refOrConst && c.bases.length === 0) {
         ctx.report({
           ruleId: 'C.43',
           node: c.nameNode ?? c.node,

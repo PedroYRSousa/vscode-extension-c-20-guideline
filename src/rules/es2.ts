@@ -112,6 +112,7 @@ const magicConstantCheck: Check = {
   covers: ['ES.45'],
   run(ctx) {
     const allow = new Set(ctx.config.magicConstantAllowList.map((s) => stripSuffix(s)));
+    const allowNumbers = new Set(ctx.config.magicConstantAllowList.map((s) => Number(stripSuffix(s))).filter((n) => Number.isFinite(n)));
     const allowedAncestors = [
       'enumerator',
       'preproc_def',
@@ -141,6 +142,8 @@ const magicConstantCheck: Check = {
         node = parent;
       }
       if (allow.has(stripSuffix(text)) || allow.has(text)) continue;
+      const numeric = Number(stripSuffix(text));
+      if (lit.type === 'number_literal' && Number.isFinite(numeric) && allowNumbers.has(numeric)) continue;
       if (lit.type === 'char_literal' && allow.has(text.replace(/\\\\/g, '\\'))) continue;
       const up = node.parent;
       if (!up) continue;

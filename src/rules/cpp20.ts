@@ -549,6 +549,20 @@ const gslCheck: Check = {
 // ---------------------------------------------------------------------------------------------
 // CPP20.string_view  const std::string& parameters
 // ---------------------------------------------------------------------------------------------
+const VIEW_METHODS = new Set(['size', 'length', 'empty', 'substr', 'find', 'rfind', 'find_first_of', 'find_last_of', 'compare', 'starts_with', 'ends_with', 'begin', 'end', 'front', 'back', 'at', 'contains', 'remove_prefix', 'remove_suffix']);
+
+function onlyStringViewUses(body: Node, name: string): boolean {
+  const uses = body.descendantsOfType('identifier').filter((n): n is Node => !!n && n.text === name);
+  return uses.every((u) => {
+    const p = u.parent;
+    if (p?.type === 'field_expression' && field(p, 'argument')?.id === u.id) return VIEW_METHODS.has(field(p, 'field')?.text ?? '');
+    if (p?.type === 'binary_expression') return ['==', '!=', '<', '>', '<=', '>=', '<<'].includes(field(p, 'operator')?.text ?? '');
+    if (p?.type === 'subscript_expression') return true;
+    if (p?.type === 'return_statement') return false;
+    return false;
+  });
+}
+
 const stringViewCheck: Check = {
   name: 'CPP20.string_view',
   covers: ['CPP20.string_view'],
@@ -562,10 +576,8 @@ const stringViewCheck: Check = {
         const isConst = kids(p).some((k) => k.type === 'type_qualifier' && k.text === 'const');
         if (!type || !isConst || !shape.reference || shape.pointer || normalizeType(ctx.src(type)) !== 'std::string') continue;
         const name = paramName(p);
-        if (name && f.body && f.body.descendantsOfType('call_expression').some((c) => {
-          const fn = c ? field(c, 'function') : null;
-          return fn?.type === 'field_expression' && field(fn, 'argument')?.text === name && ['c_str', 'data'].includes(field(fn, 'field')?.text ?? '');
-        })) continue;
+        // only when every use is something a std::string_view supports (no call that might need a std::string)
+        if (name && f.body && !onlyStringViewUses(f.body, name)) continue;
         const dflt = p.type === 'optional_parameter_declaration' ? field(p, 'default_value') : null;
         ctx.report({
           ruleId: 'CPP20.string_view',

@@ -221,7 +221,18 @@ export class SymbolTable {
 
   private scopeFor(decl: Node, kind: VarInfo['kind']): Node {
     if (kind === 'param') {
-      return ancestorWhere(decl, (n) => n.type === 'function_definition' || n.type === 'lambda_expression') ?? scopeOf(decl);
+      // The parameters of a definition live in the whole function; those of a mere declaration (prototype),
+      // of a requires-expression or of a template head only in their own list.
+      const list = ancestorWhere(decl, (n) => n.type === 'parameter_list' || n.type === 'template_parameter_list');
+      const fn = ancestorWhere(decl, (n) => n.type === 'function_definition' || n.type === 'lambda_expression');
+      const req = ancestorWhere(decl, (n) => n.type === 'requires_expression');
+      if (req && (!fn || req.startIndex > fn.startIndex)) return req;
+      if (list?.type === 'template_parameter_list') return list;
+      if (fn && list) {
+        const head = field(fn, 'declarator');
+        if (head && head.startIndex <= list.startIndex && list.endIndex <= head.endIndex) return fn;
+      }
+      return list ?? fn ?? scopeOf(decl);
     }
     if (decl.type === 'for_range_loop') return decl;
     if (decl.type === 'condition_clause') return decl.parent ?? decl;

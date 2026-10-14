@@ -37,25 +37,35 @@ const indentationCheck: Check = {
       if (/^\t/.test(text)) tabLines++;
       else if (/^ {2,}\S/.test(text)) spaceLines++;
     }
-    if (tabLines > 0 && spaceLines > 0) {
+    const mixed = tabLines > 0 && spaceLines > 0;
+    if (mixed) {
       const useTabs = tabLines >= spaceLines;
       const unit = ctx.indentUnit === '\t' ? 4 : ctx.indentUnit.length;
+      const edits: TextEdit[] = [];
+      let first = -1;
       for (let l = 0; l < ctx.lineCount; l++) {
         const text = ctx.lineText(l);
         const ws = /^[ \t]*/.exec(text)![0];
         if (ws.length === text.length) continue;
         const bad = useTabs ? /^ {2,}/.test(ws) && !ws.includes('\t') : ws.includes('\t');
         if (!bad) continue;
+        if (first < 0) first = l;
         const columns = widthOf(ws);
         const fixed = useTabs ? '\t'.repeat(Math.floor(columns / unit)) + ' '.repeat(columns % unit) : ' '.repeat(columns);
+        edits.push(reindent(ctx, l, fixed));
+      }
+      if (first >= 0) {
         ctx.report({
           ruleId: 'NL.4',
-          start: ctx.lineStart(l),
-          end: ctx.lineStart(l) + ws.length,
-          message: useTabs ? t('Mixed indentation: this file indents with tabs, but this line uses spaces.') : t('Mixed indentation: this file indents with spaces, but this line uses tabs.'),
-          fixes: [ctx.fix(t('Fix the indentation characters'), [reindent(ctx, l, fixed)])],
+          start: ctx.lineStart(first),
+          end: ctx.lineStart(first) + Math.max(1, leadingWhitespace(ctx, first).length),
+          message: useTabs
+            ? t('Mixed indentation: this file indents with tabs, but {0} line(s) use spaces (first one here).', edits.length)
+            : t('Mixed indentation: this file indents with spaces, but {0} line(s) use tabs (first one here).', edits.length),
+          fixes: [ctx.fix(t('Fix the indentation characters of the whole file'), edits)],
         });
       }
+      return; // indentation widths are unreliable until the characters are consistent
     }
 
     // (2) block contents are indented consistently
@@ -80,7 +90,7 @@ const indentationCheck: Check = {
       const open = block.startIndex;
       const expected = ownerIndent + unitWidth;
       for (const c of namedKids(block)) {
-        if (c.type === 'comment' || !ctx.startsLine(c.startIndex) || ctx.lineOf(c.startIndex) <= ctx.lineOf(open)) continue;
+        if (c.type === 'comment' || c.type === 'case_statement' || !ctx.startsLine(c.startIndex) || ctx.lineOf(c.startIndex) <= ctx.lineOf(open)) continue;
         const actual = widthOf(ctx.indentAt(c.startIndex));
         if (actual === expected) continue;
         const line = ctx.lineOf(c.startIndex);

@@ -17,7 +17,13 @@ export const STD_HEADERS = new Set(
 
 /** Top-level items with `#ifndef`/`#if` blocks flattened (their bodies are part of the file). */
 function* topLevel(node: Node): Generator<Node> {
+  const skip = new Set<number>();
+  for (const f of ['name', 'condition']) {
+    const n = field(node, f);
+    if (n) skip.add(n.id);
+  }
   for (const c of namedKids(node)) {
+    if (skip.has(c.id)) continue;
     if (c.type === 'preproc_ifdef' || c.type === 'preproc_if' || c.type === 'preproc_else' || c.type === 'preproc_elif' || c.type === 'preproc_elifdef') {
       yield* topLevel(c);
     } else yield c;
