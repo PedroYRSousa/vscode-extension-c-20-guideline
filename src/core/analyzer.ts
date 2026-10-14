@@ -9,6 +9,11 @@ export interface AnalyzeOptions {
   checks: readonly Check[];
   /** Re-throw check crashes instead of collecting them (tests). */
   strict?: boolean;
+  /**
+   * Findings from an external analyser (clang-tidy) for exactly this text. They go through the same
+   * suppression and severity filters; where a built-in check already reported the rule on the same line they are dropped.
+   */
+  external?: readonly Finding[];
 }
 
 export interface AnalyzeResult {
@@ -46,7 +51,9 @@ export async function analyze(
     const { suppressions, problems } = parseSuppressions(ctx);
     const seen = new Set<string>();
     const findings: Finding[] = [];
-    for (const f of ctx.findings) {
+    const covered = new Set(ctx.findings.flatMap((f) => [f.ruleId, ...f.alsoCovers].map((id) => `${id}@${ctx.lineOf(f.start)}`)));
+    const external = (options.external ?? []).filter((f) => !covered.has(`${f.ruleId}@${ctx.lineOf(f.start)}`));
+    for (const f of [...ctx.findings, ...external]) {
       const info = ruleInfo(f.ruleId);
       if (info?.optIn === 'modules' && !config.enforceModules) continue;
       if (f.severity === 'warning' && !config.enableOptionalWarnings) continue;
