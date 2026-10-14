@@ -11,3 +11,6 @@ node_modules/**
 tsconfig.json
 vitest.config.ts
 .gitignore
+data/**
+vitest.config.ts
+docs/local/**
